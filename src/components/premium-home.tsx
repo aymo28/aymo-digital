@@ -463,7 +463,7 @@ function RevenuePillar() {
           <Reveal>
             <div className="pillar-card pillar-card-bad h-full">
               <p className="mb-4 font-display text-lg font-extrabold">❌ The Typical Agency Trap</p>
-              <ul className="grid gap-3">
+              <ul className="pillar-list grid gap-3">
                 {badItems.map((item) => (
                   <li key={item} className="flex items-start gap-3 text-sm leading-snug text-muted-foreground">
                     <X className="mt-0.5 size-4 shrink-0 text-red-500" />
@@ -476,7 +476,7 @@ function RevenuePillar() {
           <Reveal delay={120}>
             <div className="pillar-card pillar-card-good h-full">
               <p className="mb-4 font-display text-lg font-extrabold">✅ The Aymo Digital Qualified Funnel</p>
-              <ul className="grid gap-3">
+              <ul className="pillar-list grid gap-3">
                 {goodItems.map((item) => (
                   <li key={item} className="flex items-start gap-3 text-sm leading-snug text-muted-foreground">
                     <Check className="mt-0.5 size-4 shrink-0 text-primary" />
@@ -550,7 +550,7 @@ function BlueprintTimeline() {
             A transparent blueprint of exactly what we do in your first month.
           </p>
         </Reveal>
-        <div style={{ maxWidth: "44rem", margin: "0 auto" }}>
+        <div className="timeline-grid">
           {timelineSteps.map(({ icon: Icon, week, title, bullets }, index) => (
             <Reveal key={title} delay={index * 80}>
               <div className="timeline-step">
