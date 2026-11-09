@@ -614,6 +614,43 @@ function GuaranteeStrips() {
 
 // ─── Closing CTA ─────────────────────────────────────────────────────────────
 
+function GlobalStrip() {
+  const items = [
+    { title: "London · GMT", text: "UK client desk & meetings" },
+    { title: "Islamabad · PKT", text: "Engineering & growth team" },
+    { title: "GBP · USD · AED", text: "Clear contracts & invoicing" },
+    { title: "100% IP transfer", text: "Code, ad accounts & data are yours" },
+  ];
+  return (
+    <section className="global-strip"><div className="page-shell global-strip-grid">
+      {items.map((i) => <div key={i.title} className="global-strip-item"><Check className="size-4" /><div><strong>{i.title}</strong><small>{i.text}</small></div></div>)}
+    </div></section>
+  );
+}
+
+function EngineeringSection() {
+  const pillars = [
+    { title: "Web Development", text: "Fast, conversion-ready websites and landing pages built for 95+ PageSpeed.", slug: "web-development" },
+    { title: "Mobile Apps", text: "iOS & Android apps your customers actually keep on their phone.", slug: "app-development" },
+    { title: "Custom Software & SaaS", text: "CRMs, portals and dashboards that automate how your business runs.", slug: "software-development" },
+  ];
+  return (
+    <section className="section-band"><div className="page-shell py-20">
+      <Reveal className="section-heading text-left"><p className="eyebrow">We build, not just advertise</p><h2 className="section-title">Engineering + growth <span>under one roof.</span></h2></Reveal>
+      <div className="eng-grid">
+        {pillars.map((p, i) => (
+          <Reveal key={p.title} delay={i * 100} className="eng-card">
+            <span className="eng-num">0{i + 1}</span>
+            <h3>{p.title}</h3>
+            <p>{p.text}</p>
+            <Link to="/contact" className="arrow-link">Discuss your build <ArrowRight /></Link>
+          </Reveal>
+        ))}
+      </div>
+    </div></section>
+  );
+}
+
 export function PremiumHome() {
   const typeword = useTypewriter(["advanced marketing", "smarter strategy", "creative growth"]);
   return (
@@ -636,7 +673,9 @@ export function PremiumHome() {
       </section>
 
       <section className="growth-marquee" aria-label="Aymo Digital capabilities"><div className="marquee-track">{[0, 1].map((copy) => <div key={copy} aria-hidden={copy === 1}>{["ADVANCED MARKETING", "SEO", "PAID MEDIA", "SOCIAL GROWTH", "CONTENT", "ANALYTICS", "AYMO DIGITAL"].map((item) => <span key={`${copy}-${item}`}>{item}<i /></span>)}</div>)}</div></section>
-      <section className="logo-wall"><div className="page-shell"><span>Trusted by growing brands</span><div>{["NORTHSTAR", "ORBITLE", "FIELDMARK", "KINETIQ", "BRIGHTWAY"].map((brand) => <strong key={brand} tabIndex={0}>{brand}</strong>)}</div><small>Sample client names shown for layout preview</small></div></section>
+      <section className="logo-wall"><div className="page-shell"><span>Platforms we build &amp; scale on</span><div>{["META", "GOOGLE ADS", "SHOPIFY", "AWS", "STRIPE", "VERCEL"].map((brand) => <strong key={brand} tabIndex={0}>{brand}</strong>)}</div></div></section>
+      <GlobalStrip />
+      <EngineeringSection />
       <Marquee items={marqueeItemsTech} id="Tech stack and marketing channels" />
       <RevenuePillar />
       <GoalSelector />
