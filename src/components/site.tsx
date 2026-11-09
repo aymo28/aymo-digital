@@ -244,9 +244,9 @@ export function SiteFooter() {
 
   return (
     <footer className="bg-footer text-footer-foreground">
-      <div className="page-shell grid gap-10 py-12 md:grid-cols-[1.6fr_1fr_1fr_1fr_1fr]">
+      <div className="page-shell grid grid-cols-2 gap-x-6 gap-y-8 py-12 md:grid-cols-[1.6fr_1fr_1fr_1fr_1fr]">
         {/* Brand column */}
-        <div>
+        <div className="col-span-2 md:col-span-1">
           <Brand />
           <p className="mt-5 max-w-xs text-xs leading-5 text-footer-muted">
             We engineer lightning-fast digital products and run high-ROAS acquisition campaigns that turn cold traffic into verified, paying customers.

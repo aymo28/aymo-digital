@@ -74,10 +74,10 @@
   --results-foreground: oklch(0.99 0.005 285);
   --results-muted: oklch(0.79 0.035 285);
   --results-line: oklch(0.44 0.1 282);
-  --footer: oklch(0.17 0.035 262);
-  --footer-foreground: oklch(0.98 0.006 285);
-  --footer-muted: oklch(0.72 0.02 258);
-  --footer-line: oklch(0.31 0.03 262);
+  --footer: oklch(0.955 0.012 270);
+  --footer-foreground: oklch(0.22 0.028 258);
+  --footer-muted: oklch(0.45 0.025 258);
+  --footer-line: oklch(0.88 0.015 265);
   --insight-one: oklch(0.34 0.12 284);
   --insight-two: oklch(0.54 0.16 250);
   --insight-three: oklch(0.38 0.13 320);
