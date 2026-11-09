@@ -1,0 +1,3 @@
+import { Link } from "@tanstack/react-router";
+import { CalendarDays, FileText, MessageCircle, Phone } from "lucide-react";
+export function MobileActionBar(){return <nav className="mobile-action-bar md:hidden" aria-label="Quick contact"><a href="https://wa.me/923173712950?text=Hi%20Aymo%20Digital%2C%20I%27d%20like%20to%20discuss%20marketing%20for%20my%20business." aria-label="Chat with Aymo Digital on WhatsApp"><MessageCircle/><span>WhatsApp</span></a><a href="tel:+923173712950" aria-label="Call Aymo Digital"><Phone/><span>Call</span></a><Link to="/contact" search={{mode:"quote"}} aria-label="Request a quotation"><FileText/><span>Quote</span></Link><Link to="/contact" search={{mode:"booking"}} aria-label="Book a call"><CalendarDays/><span>Booking</span></Link></nav>}
