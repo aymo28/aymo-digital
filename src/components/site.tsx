@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, ChevronDown, Menu, Send, X } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
+import logoAsset from "@/assets/aymo-logo.png.asset.json";
 
 export function Reveal({ children, className = "", delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -22,12 +23,8 @@ export function Reveal({ children, className = "", delay = 0 }: { children: Reac
 
 export function Brand() {
   return (
-    <Link to="/" className="flex min-w-0 items-center gap-3" aria-label="AYMO DIGITAL home">
-      <span className="brand-mark shrink-0" aria-hidden="true"><span>AD</span></span>
-      <span className="leading-none">
-        <strong className="brand-glow block font-display text-[15px] font-extrabold uppercase text-foreground">AYMO DIGITAL</strong>
-        <span className="mt-1 block text-[8px] font-bold uppercase text-primary">Digital Engineering &amp; Growth</span>
-      </span>
+    <Link to="/" className="flex min-w-0 items-center" aria-label="AYMO DIGITAL home">
+      <img src={logoAsset.url} alt="AYMO DIGITAL" width={150} height={150} className="h-14 w-14 shrink-0 object-contain sm:h-16 sm:w-16" />
     </Link>
   );
 }
