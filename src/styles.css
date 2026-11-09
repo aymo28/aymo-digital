@@ -695,13 +695,11 @@
 /* ---------- Mobile: only hero bg image; desktop cards ---------- */
 @media (max-width: 767px) { .hero-stagger-visual { display: none; } }
 .timeline-grid { max-width: 44rem; margin: 0 auto; }
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .timeline-grid { max-width: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25rem; }
   .timeline-grid > * { height: 100%; }
   .timeline-grid .timeline-step { height: 100%; padding: 1.6rem; border: 1px solid var(--color-border); border-radius: var(--radius); background: var(--color-card); box-shadow: var(--shadow-soft); transition: transform .3s ease, box-shadow .3s ease; }
   .timeline-grid .timeline-step:hover { transform: translateY(-4px); box-shadow: 0 24px 50px -28px color-mix(in oklab, var(--color-primary) 45%, transparent); }
   .timeline-grid .timeline-step::before { display: none; }
   .timeline-grid .timeline-dot { position: static; margin-bottom: 1rem; }
-  .pillar-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .pillar-list li { padding: .85rem; border: 1px solid var(--color-border); border-radius: calc(var(--radius) - .2rem); background: color-mix(in oklab, var(--color-card) 80%, transparent); }
 }
