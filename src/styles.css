@@ -734,3 +734,4 @@
 @media (max-width: 1023px) { .global-strip .strip-dup { display: flex; } }
 @media (max-width: 767px) { .logo-wall .strip-dup { display: inline; } }
 @media (prefers-reduced-motion: reduce) { .global-strip-grid, .logo-wall > div > div { animation: none !important; } }
+@media (max-width: 767px) { .consult-trigger { display: none !important; } }
