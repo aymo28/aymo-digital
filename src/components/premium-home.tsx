@@ -492,14 +492,6 @@ function RevenuePillar() {
   );
 }
 
-// ─── Service Post (Instagram style) ──────────────────────────────────────────
-type ServiceDef = {
-  icon: Icon;
-  slug: string;
-  title: string;
-  tagline: string;
-  description: string;
-
 const timelineSteps = [
   {
     icon: Search as Icon,
