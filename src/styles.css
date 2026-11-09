@@ -689,3 +689,4 @@
 
 /* ---------- Guarantee strip ---------- */
 .guarantee-strip { display: flex; align-items: flex-start; gap: 1rem; padding: 1.5rem 2rem; border-radius: var(--radius); border: 1px solid color-mix(in oklab, var(--color-primary) 22%, transparent); background: linear-gradient(135deg, var(--color-card), var(--color-hero-surface)); box-shadow: var(--shadow-soft); }
+@media (min-width: 768px) { .mobile-action-bar { display: none; } }
