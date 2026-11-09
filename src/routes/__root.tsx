@@ -8,7 +8,6 @@ import {
   Scripts,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
-import { MessageCircle } from "lucide-react";
 import { useEffect, type ReactNode } from "react";
 import { MobileActionBar } from "@/components/mobile-action-bar";
 
@@ -137,16 +136,6 @@ function RootComponent() {
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
 
-      {/* Floating WhatsApp chat widget */}
-      <a
-        href="https://wa.me/923173712950"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="float-chat"
-        aria-label="Chat on WhatsApp"
-      >
-        <MessageCircle size={22} />
-      </a>
 
       <MobileActionBar />
     </QueryClientProvider>

@@ -74,10 +74,10 @@
   --results-foreground: oklch(0.99 0.005 285);
   --results-muted: oklch(0.79 0.035 285);
   --results-line: oklch(0.44 0.1 282);
-  --footer: oklch(0.17 0.035 262);
-  --footer-foreground: oklch(0.98 0.006 285);
-  --footer-muted: oklch(0.72 0.02 258);
-  --footer-line: oklch(0.31 0.03 262);
+  --footer: oklch(0.955 0.012 270);
+  --footer-foreground: oklch(0.22 0.028 258);
+  --footer-muted: oklch(0.45 0.025 258);
+  --footer-line: oklch(0.88 0.015 265);
   --insight-one: oklch(0.34 0.12 284);
   --insight-two: oklch(0.54 0.16 250);
   --insight-three: oklch(0.38 0.13 320);
@@ -219,7 +219,7 @@
 .demo-label { margin-top: .9rem; text-align: center; font-size: .7rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: color-mix(in oklab, var(--color-muted-foreground) 85%, var(--color-foreground)); }
 
 /* ---------- Logo wall ---------- */
-.growth-marquee { overflow: hidden; border-block: 1px solid color-mix(in oklab, var(--color-primary) 20%, transparent); background: var(--surface-deep); color: var(--color-footer-foreground); }
+.growth-marquee { overflow: hidden; border-block: 1px solid color-mix(in oklab, var(--color-primary) 20%, transparent); background: var(--surface-deep); color: var(--color-primary-foreground); }
 .marquee-track { display: flex; width: max-content; animation: marquee-flow 28s linear infinite; }
 .marquee-track > div { display: flex; flex-shrink: 0; align-items: center; }
 .marquee-track span { display: inline-flex; align-items: center; gap: 1.5rem; padding: .9rem 1.5rem; white-space: nowrap; font-family: var(--font-display); font-size: .68rem; font-weight: 800; letter-spacing: .12em; }
@@ -718,3 +718,20 @@
 .eng-num { font-size: .75rem; font-weight: 700; color: var(--primary); }
 .eng-card h3 { font-size: 1.25rem; font-weight: 700; color: var(--foreground); }
 .eng-card p { font-size: .9rem; line-height: 1.6; color: var(--muted-foreground); flex: 1; }
+
+/* ---------- Mobile single-row ribbons ---------- */
+.strip-dup { display: none; }
+@media (max-width: 1023px) {
+  .global-strip { overflow: hidden; }
+  .global-strip-grid { display: flex; width: max-content; gap: 2.5rem; padding-inline: 1rem; animation: aymo-marquee 26s linear infinite; }
+  .global-strip-item { flex-shrink: 0; white-space: nowrap; }
+}
+@media (max-width: 767px) {
+  .logo-wall { overflow: hidden; }
+  .logo-wall > div > div { overflow: visible !important; width: max-content !important; gap: 2.5rem !important; animation: aymo-marquee 20s linear infinite; }
+  .logo-wall strong { white-space: nowrap; }
+}
+@media (max-width: 1023px) { .global-strip .strip-dup { display: flex; } }
+@media (max-width: 767px) { .logo-wall .strip-dup { display: inline; } }
+@media (prefers-reduced-motion: reduce) { .global-strip-grid, .logo-wall > div > div { animation: none !important; } }
+@media (max-width: 767px) { .consult-trigger { display: none !important; } }

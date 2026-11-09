@@ -416,7 +416,7 @@ function Marquee({ items, id }: { items: string[]; id: string }) {
           <span
             key={`${item}-${index}`}
             aria-hidden={index >= items.length}
-            style={{ display: "inline-flex", alignItems: "center", padding: "0.85rem 1.25rem", whiteSpace: "nowrap", fontFamily: "var(--font-display)", fontSize: ".72rem", fontWeight: 800, letterSpacing: ".1em", textTransform: "uppercase" as const, color: "var(--color-footer-foreground)" }}
+            style={{ display: "inline-flex", alignItems: "center", padding: "0.85rem 1.25rem", whiteSpace: "nowrap", fontFamily: "var(--font-display)", fontSize: ".72rem", fontWeight: 800, letterSpacing: ".1em", textTransform: "uppercase" as const, color: "var(--color-primary-foreground)" }}
           >
             {item}
             {index < list.length - 1 && (
@@ -623,7 +623,7 @@ function GlobalStrip() {
   ];
   return (
     <section className="global-strip"><div className="page-shell global-strip-grid">
-      {items.map((i) => <div key={i.title} className="global-strip-item"><Check className="size-4" /><div><strong>{i.title}</strong><small>{i.text}</small></div></div>)}
+      {[...items, ...items].map((i, idx) => <div key={`${i.title}-${idx}`} aria-hidden={idx >= items.length} className={`global-strip-item ${idx >= items.length ? "strip-dup" : ""}`}><Check className="size-4" /><div><strong>{i.title}</strong><small>{i.text}</small></div></div>)}
     </div></section>
   );
 }
@@ -673,7 +673,7 @@ export function PremiumHome() {
       </section>
 
       <section className="growth-marquee" aria-label="Aymo Digital capabilities"><div className="marquee-track">{[0, 1].map((copy) => <div key={copy} aria-hidden={copy === 1}>{["ADVANCED MARKETING", "SEO", "PAID MEDIA", "SOCIAL GROWTH", "CONTENT", "ANALYTICS", "AYMO DIGITAL"].map((item) => <span key={`${copy}-${item}`}>{item}<i /></span>)}</div>)}</div></section>
-      <section className="logo-wall"><div className="page-shell"><span>Platforms we build &amp; scale on</span><div>{["META", "GOOGLE ADS", "SHOPIFY", "AWS", "STRIPE", "VERCEL"].map((brand) => <strong key={brand} tabIndex={0}>{brand}</strong>)}</div></div></section>
+      <section className="logo-wall"><div className="page-shell"><span>Platforms we build &amp; scale on</span><div>{[0, 1].flatMap((c) => ["META", "GOOGLE ADS", "SHOPIFY", "AWS", "STRIPE", "VERCEL"].map((brand) => <strong key={`${c}-${brand}`} aria-hidden={c === 1} className={c === 1 ? "strip-dup" : ""}>{brand}</strong>))}</div></div></section>
       <GlobalStrip />
       <EngineeringSection />
       <Marquee items={marqueeItemsTech} id="Tech stack and marketing channels" />
