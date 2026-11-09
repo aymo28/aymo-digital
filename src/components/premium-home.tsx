@@ -466,7 +466,7 @@ function RevenuePillar() {
               <ul className="grid gap-3">
                 {badItems.map((item) => (
                   <li key={item} className="flex items-start gap-3 text-sm leading-snug text-muted-foreground">
-                    <X className="mt-0.5 size-4 shrink-0 text-destructive" />
+                    <X className="mt-0.5 size-4 shrink-0 text-red-500" />
                     {item}
                   </li>
                 ))}
