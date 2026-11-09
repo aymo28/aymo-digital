@@ -703,3 +703,18 @@
   .timeline-grid .timeline-step::before { display: none; }
   .timeline-grid .timeline-dot { position: static; margin-bottom: 1rem; }
 }
+
+.global-strip { border-block: 1px solid var(--border); background: color-mix(in oklab, var(--primary) 5%, var(--background)); }
+.global-strip-grid { display: grid; gap: 1rem; padding-block: 1.25rem; grid-template-columns: repeat(2, minmax(0,1fr)); }
+@media (min-width: 1024px) { .global-strip-grid { grid-template-columns: repeat(4, minmax(0,1fr)); } }
+.global-strip-item { display: flex; gap: .6rem; align-items: flex-start; }
+.global-strip-item svg { color: var(--primary); margin-top: .2rem; flex-shrink: 0; }
+.global-strip-item strong { display: block; font-size: .85rem; color: var(--foreground); }
+.global-strip-item small { font-size: .72rem; color: var(--muted-foreground); }
+.eng-grid { display: grid; gap: 1.25rem; margin-top: 2.5rem; }
+@media (min-width: 768px) { .eng-grid { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+.eng-card { display: flex; flex-direction: column; gap: .75rem; padding: 1.75rem; border-radius: 1.25rem; border: 1px solid var(--border); background: var(--card); box-shadow: 0 10px 30px -18px color-mix(in oklab, var(--primary) 40%, transparent); transition: transform .3s ease, box-shadow .3s ease; }
+.eng-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px -18px color-mix(in oklab, var(--primary) 55%, transparent); }
+.eng-num { font-size: .75rem; font-weight: 700; color: var(--primary); }
+.eng-card h3 { font-size: 1.25rem; font-weight: 700; color: var(--foreground); }
+.eng-card p { font-size: .9rem; line-height: 1.6; color: var(--muted-foreground); flex: 1; }
