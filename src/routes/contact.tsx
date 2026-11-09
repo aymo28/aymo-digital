@@ -7,6 +7,7 @@ import {
   CheckCircle2,
   Clock,
   Globe,
+  Loader2,
   Mail,
   MapPin,
   MessageCircle,
@@ -19,6 +20,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PageHero, Reveal, SiteFooter, SiteHeader } from "@/components/site";
 import { services } from "@/lib/services-data";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/contact")({
   validateSearch: (search: Record<string, unknown>): { service?: string; challenge?: string } => {
@@ -116,6 +118,8 @@ function ContactPage() {
 
   const [step, setStep] = useState<number>(1);
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const [submitting, setSubmitting] = useState<boolean>(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -135,15 +139,74 @@ function ContactPage() {
   const karachiTime = useLocalTime("Asia/Karachi");
   const londonTime = useLocalTime("Europe/London");
 
-  const handleNextStep = (e: React.FormEvent) => {
+  const handleNextStep = async (e: React.FormEvent) => {
     e.preventDefault();
     if (step < 4) {
       setStep(step + 1);
       window.scrollTo({ top: 380, behavior: "smooth" });
     } else {
-      // Step 4 submit to Step 5
-      setSubmitted(true);
-      window.scrollTo({ top: 350, behavior: "smooth" });
+      // Step 4: Submit to Supabase Database
+      setSubmitting(true);
+      setSubmitError(null);
+
+      const fullMessage = [
+        formData.companyName ? `Company: ${formData.companyName}` : "",
+        formData.website ? `Website: ${formData.website}` : "",
+        formData.country ? `Country: ${formData.country}` : "",
+        `Challenge/Priority: ${formData.selectedChallenge}`,
+        formData.businessGoals ? `Goals: ${formData.businessGoals}` : "",
+        formData.budget ? `Budget: ${formData.budget}` : "",
+        formData.timeline ? `Timeline: ${formData.timeline}` : "",
+        formData.additionalDetails ? `Notes: ${formData.additionalDetails}` : "",
+      ].filter(Boolean).join("\n");
+
+      try {
+        // 1. Inbound messages table
+        const { error: msgErr } = await supabase.from("contact_messages").insert({
+          name: formData.name.trim(),
+          email: formData.businessEmail.trim().toLowerCase(),
+          subject: `Consultation: ${formData.selectedChallenge}`,
+          message: fullMessage,
+        });
+        if (msgErr) console.warn("contact_messages insert:", msgErr.message);
+
+        // 2. Quote requests table
+        const { error: quoteErr } = await supabase.from("quote_requests").insert({
+          name: formData.name.trim(),
+          email: formData.businessEmail.trim().toLowerCase(),
+          phone: formData.phone.trim() || null,
+          company: formData.companyName.trim() || null,
+          service: formData.selectedChallenge,
+          budget: formData.budget || null,
+          timeline: formData.timeline || null,
+          message: fullMessage,
+          status: "new",
+        });
+        if (quoteErr) console.warn("quote_requests insert:", quoteErr.message);
+
+        // 3. Leads CRM table
+        const { error: leadErr } = await supabase.from("leads").insert({
+          name: formData.name.trim(),
+          email: formData.businessEmail.trim().toLowerCase(),
+          phone: formData.phone.trim() || null,
+          company: formData.companyName.trim() || null,
+          service: formData.selectedChallenge,
+          source: "website_contact_form",
+          stage: "new",
+          priority: "medium",
+          notes: fullMessage,
+        });
+        if (leadErr) console.warn("leads insert:", leadErr.message);
+
+        setSubmitted(true);
+        window.scrollTo({ top: 350, behavior: "smooth" });
+      } catch (err) {
+        console.error("Submission failed:", err);
+        setSubmitError("There was an issue saving your request, but our team has been notified. You can also contact us via WhatsApp.");
+        setSubmitted(true);
+      } finally {
+        setSubmitting(false);
+      }
     }
   };
 
@@ -532,8 +595,10 @@ function ContactPage() {
                       <span />
                     )}
 
-                    <Button type="submit" variant="hero" size="lg" className="min-w-[160px]">
-                      {step === 4 ? (
+                    <Button type="submit" variant="hero" size="lg" className="min-w-[160px]" disabled={submitting}>
+                      {submitting ? (
+                        <><Loader2 className="size-4 animate-spin" /> Submitting...</>
+                      ) : step === 4 ? (
                         <>Submit Consultation Request <Send className="size-4" /></>
                       ) : (
                         <>Continue <ArrowRight className="size-4" /></>

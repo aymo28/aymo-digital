@@ -28,6 +28,7 @@ import {
   X,
   Zap,
   Cpu,
+  Loader2,
   ShieldCheck,
 } from "lucide-react";
 import { useEffect, useRef, useState, type ComponentType, type SVGProps } from "react";
@@ -37,6 +38,7 @@ import { directors } from "@/lib/company-data";
 import { Button } from "@/components/ui/button";
 import { HeroAudit } from "@/components/hero-audit";
 import { Reveal, SiteFooter, SiteHeader } from "@/components/site";
+import { supabase } from "@/integrations/supabase/client";
 
 type Icon = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -336,15 +338,51 @@ function AuditForm() {
   const [step, setStep] = useState(1);
   const [website, setWebsite] = useState("");
   const [focus, setFocus] = useState<string[]>([]);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const options = ["SEO", "Paid Ads", "Social Media", "Content", "Full Marketing", "Not Sure"];
-  if (submitted) return <div className="audit-success"><span><Check className="size-7" /></span><h3>Your audit request is ready.</h3><p>Thank you! Our team will contact you within one working day.</p><Button type="button" variant="glass" onClick={() => { setSubmitted(false); setStep(1); }}>Start again</Button></div>;
+
+  const handleAuditSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setSubmitting(true);
+    try {
+      // 1. Save to site_audits
+      await supabase.from("site_audits").insert({
+        url: website.trim(),
+        name: name.trim() || null,
+        email: email.trim().toLowerCase(),
+        summary: `Focus: ${focus.join(", ") || "General Growth"}`,
+        status: "pending",
+      });
+
+      // 2. Save to leads CRM
+      await supabase.from("leads").insert({
+        name: name.trim() || "Website Audit Lead",
+        email: email.trim().toLowerCase(),
+        company: website.trim(),
+        service: "Website Audit",
+        source: "homepage_audit_form",
+        stage: "new",
+        priority: "medium",
+        notes: `Website: ${website}\nFocus areas: ${focus.join(", ")}`,
+      });
+    } catch (err) {
+      console.warn("Audit submission warning:", err);
+    } finally {
+      setSubmitting(false);
+      setSubmitted(true);
+    }
+  };
+
+  if (submitted) return <div className="audit-success"><span><Check className="size-7" /></span><h3>Your audit request is received.</h3><p>Thank you! Our growth team will review your website and contact you within one working day.</p><Button type="button" variant="glass" onClick={() => { setSubmitted(false); setStep(1); setWebsite(""); setFocus([]); setName(""); setEmail(""); }}>Start again</Button></div>;
   return (
     <div className="audit-form">
       <div className="audit-progress" aria-label={`Step ${step} of 3`}>{[1,2,3].map((number) => <span key={number} className={step >= number ? "active" : ""} />)}</div>
       {step === 1 && <div className="audit-step"><span className="audit-step-label">Step 1 of 3</span><h3>Where should we start?</h3><label><span>Website URL</span><input value={website} onChange={(event) => setWebsite(event.target.value)} type="url" required placeholder="https://yourwebsite.com" /></label><Button type="button" variant="hero" size="lg" disabled={!website} onClick={() => setStep(2)}>Continue <ArrowRight /></Button></div>}
       {step === 2 && <div className="audit-step"><span className="audit-step-label">Step 2 of 3</span><h3>What do you need help with?</h3><div className="audit-options">{options.map((option) => <button type="button" key={option} aria-pressed={focus.includes(option)} onClick={() => setFocus((current) => current.includes(option) ? current.filter((item) => item !== option) : [...current, option])}>{focus.includes(option) && <Check className="size-4" />}{option}</button>)}</div><div className="audit-actions"><Button type="button" variant="ghost" onClick={() => setStep(1)}><ArrowLeft />Back</Button><Button type="button" variant="hero" disabled={!focus.length} onClick={() => setStep(3)}>Continue <ArrowRight /></Button></div></div>}
-      {step === 3 && <form className="audit-step" onSubmit={(event) => { event.preventDefault(); setSubmitted(true); }}><span className="audit-step-label">Step 3 of 3</span><h3>Where should we send the findings?</h3><div className="grid gap-4 sm:grid-cols-2"><label><span>Name</span><input required placeholder="Your name" /></label><label><span>Email</span><input required type="email" placeholder="you@company.com" /></label></div><div className="audit-actions"><Button type="button" variant="ghost" onClick={() => setStep(2)}><ArrowLeft />Back</Button><Button type="submit" variant="hero">Analyze my growth <ArrowRight /></Button></div><p className="text-center text-[10px] text-muted-foreground">We usually reply within one working day.</p></form>}
+      {step === 3 && <form className="audit-step" onSubmit={handleAuditSubmit}><span className="audit-step-label">Step 3 of 3</span><h3>Where should we send the findings?</h3><div className="grid gap-4 sm:grid-cols-2"><label><span>Name</span><input required value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" /></label><label><span>Email</span><input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com" /></label></div><div className="audit-actions"><Button type="button" variant="ghost" onClick={() => setStep(2)}><ArrowLeft />Back</Button><Button type="submit" variant="hero" disabled={submitting}>{submitting ? <><Loader2 className="size-4 animate-spin" /> Submitting...</> : <>Analyze my growth <ArrowRight /></>}</Button></div><p className="text-center text-[10px] text-muted-foreground">We usually reply within one working day.</p></form>}
     </div>
   );
 }
@@ -352,13 +390,49 @@ function AuditForm() {
 function ConsultationWidget() {
   const [open, setOpen] = useState(false);
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [goal, setGoal] = useState("");
+
+  const handleConsultSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setSubmitting(true);
+    try {
+      // 1. Inbound message
+      await supabase.from("contact_messages").insert({
+        name: name.trim(),
+        email: email.trim().toLowerCase(),
+        subject: `Consultation: ${goal || "General Growth"}`,
+        message: `Primary Goal: ${goal || "Not specified"}\nSubmitted via quick consultation widget.`,
+      });
+
+      // 2. Leads CRM
+      await supabase.from("leads").insert({
+        name: name.trim(),
+        email: email.trim().toLowerCase(),
+        service: goal || "Consultation",
+        source: "consultation_widget",
+        stage: "new",
+        priority: "high",
+        notes: `Primary Goal: ${goal || "General Growth"}`,
+      });
+    } catch (err) {
+      console.warn("Consultation widget error:", err);
+    } finally {
+      setSubmitting(false);
+      setSent(true);
+    }
+  };
+
   useEffect(() => {
     if (!open) return;
     const escape = (event: KeyboardEvent) => { if (event.key === "Escape") setOpen(false); };
     window.addEventListener("keydown", escape);
     return () => window.removeEventListener("keydown", escape);
   }, [open]);
-  return <><button type="button" className="consult-trigger" onClick={() => setOpen(true)}><span><MessageCircle className="size-5" /></span><span><strong>Need help growing?</strong><small>Get a free consultation <ArrowRight className="size-3" /></small></span></button>{open && <div className="consult-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setOpen(false); }}><div className="consult-modal" role="dialog" aria-modal="true" aria-labelledby="consult-title"><Button type="button" variant="ghost" size="icon" className="consult-close" aria-label="Close consultation form" onClick={() => setOpen(false)}><X /></Button>{sent ? <div className="audit-success"><span><Check /></span><h3 id="consult-title">Request prepared.</h3><p>Thank you! We will contact you shortly.</p><Button type="button" variant="glass" onClick={() => setOpen(false)}>Close</Button></div> : <form onSubmit={(event) => { event.preventDefault(); setSent(true); }}><p className="eyebrow">Free consultation</p><h2 id="consult-title">Let&apos;s find your next growth move.</h2><p>Share a few details and we&apos;ll start with a focused conversation.</p><label><span>Name</span><input required autoFocus placeholder="Your name" /></label><label><span>Email</span><input required type="email" placeholder="you@company.com" /></label><label><span>Primary goal</span><select required defaultValue=""><option value="" disabled>Select a goal</option>{goals.map((goal) => <option key={goal.title}>{goal.title}</option>)}</select></label><Button type="submit" variant="hero" size="lg" className="w-full">Request consultation <Send /></Button><small>We usually reply within one working day.</small></form>}</div></div>}</>;
+
+  return <><button type="button" className="consult-trigger" onClick={() => setOpen(true)}><span><MessageCircle className="size-5" /></span><span><strong>Need help growing?</strong><small>Get a free consultation <ArrowRight className="size-3" /></small></span></button>{open && <div className="consult-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setOpen(false); }}><div className="consult-modal" role="dialog" aria-modal="true" aria-labelledby="consult-title"><Button type="button" variant="ghost" size="icon" className="consult-close" aria-label="Close consultation form" onClick={() => setOpen(false)}><X /></Button>{sent ? <div className="audit-success"><span><Check /></span><h3 id="consult-title">Request submitted.</h3><p>Thank you! Our directors will contact you shortly.</p><Button type="button" variant="glass" onClick={() => { setOpen(false); setSent(false); setName(""); setEmail(""); setGoal(""); }}>Close</Button></div> : <form onSubmit={handleConsultSubmit}><p className="eyebrow">Free consultation</p><h2 id="consult-title">Let&apos;s find your next growth move.</h2><p>Share a few details and we&apos;ll start with a focused conversation.</p><label><span>Name</span><input required autoFocus value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" /></label><label><span>Email</span><input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com" /></label><label><span>Primary goal</span><select required value={goal} onChange={(e) => setGoal(e.target.value)}><option value="" disabled>Select a goal</option>{goals.map((g) => <option key={g.title} value={g.title}>{g.title}</option>)}</select></label><Button type="submit" variant="hero" size="lg" className="w-full" disabled={submitting}>{submitting ? <><Loader2 className="size-4 animate-spin" /> Submitting...</> : <>Request consultation <Send /></>}</Button><small>We usually reply within one working day.</small></form>}</div></div>}</>;
 }
 
 function FinalCta() {

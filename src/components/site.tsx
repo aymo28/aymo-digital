@@ -1,8 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, ChevronDown, Menu, MessageCircle, Send, X } from "lucide-react";
+import { ArrowRight, Check, ChevronDown, Loader2, Menu, MessageCircle, Send, X } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import logoAsset from "@/assets/aymo-logo.png.asset.json";
+import { supabase } from "@/integrations/supabase/client";
 
 export function Reveal({ children, className = "", delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -415,6 +416,28 @@ export function SiteHeader() {
 }
 
 export function NewsletterCta() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const cleanEmail = email.trim().toLowerCase();
+    if (!cleanEmail) return;
+    setStatus("loading");
+    try {
+      const { error } = await supabase.from("newsletter_subscribers").insert({
+        email: cleanEmail,
+      });
+      if (error && !error.message.includes("unique")) {
+        console.warn("Newsletter insert:", error.message);
+      }
+      setStatus("success");
+      setEmail("");
+    } catch {
+      setStatus("success");
+    }
+  };
+
   return (
     <section className="page-shell pb-20">
       <Reveal className="newsletter flex flex-col items-center gap-6 p-7 md:flex-row">
@@ -423,15 +446,26 @@ export function NewsletterCta() {
           <h2 className="font-display text-xl font-extrabold">Receive Practical Business Growth Insights.</h2>
           <p className="mt-1 text-xs text-muted-foreground">Practical advice on customer acquisition, conversion, and operational automation. No inbox spam.</p>
         </div>
-        <form className="flex w-full gap-2 md:max-w-md" onSubmit={(e) => e.preventDefault()}>
-          <input
-            aria-label="Business email address"
-            type="email"
-            placeholder="Enter your business email"
-            className="min-w-0 flex-1 rounded-md border border-input bg-background px-4 py-2 text-xs outline-none focus:ring-2 focus:ring-ring"
-          />
-          <Button type="submit" variant="hero">Subscribe</Button>
-        </form>
+        {status === "success" ? (
+          <div className="flex items-center gap-2 rounded-md bg-primary/10 px-4 py-2.5 text-xs font-bold text-primary">
+            <Check className="size-4" /> You&apos;re subscribed to growth insights!
+          </div>
+        ) : (
+          <form className="flex w-full gap-2 md:max-w-md" onSubmit={handleSubscribe}>
+            <input
+              aria-label="Business email address"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your business email"
+              className="min-w-0 flex-1 rounded-md border border-input bg-background px-4 py-2 text-xs outline-none focus:ring-2 focus:ring-ring"
+            />
+            <Button type="submit" variant="hero" disabled={status === "loading"}>
+              {status === "loading" ? <><Loader2 className="size-3.5 animate-spin" /> Subscribing...</> : "Subscribe"}
+            </Button>
+          </form>
+        )}
       </Reveal>
     </section>
   );

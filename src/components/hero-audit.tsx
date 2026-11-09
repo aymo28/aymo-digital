@@ -4,6 +4,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, Check, Loader2, MessageCircle, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { runWebsiteAudit, type AuditResult } from "@/lib/audit.functions";
+import { supabase } from "@/integrations/supabase/client";
 
 function scoreTone(v: number) {
   return v >= 80 ? "good" : v >= 50 ? "ok" : "bad";
@@ -28,8 +29,23 @@ export function HeroAudit() {
     setLoading(true);
     try {
       const res = await audit({ data: { url: value } });
-      if (res.ok) setResult(res.result);
-      else setError(res.error);
+      if (res.ok) {
+        setResult(res.result);
+        try {
+          await supabase.from("site_audits").insert({
+            url: value,
+            email: "anonymous@audit.lead",
+            score_overall: res.result.score,
+            summary: res.result.summary,
+            status: "completed",
+            findings: res.result.checks as any,
+          });
+        } catch {
+          // Non-blocking log
+        }
+      } else {
+        setError(res.error);
+      }
     } catch {
       setError("Something went wrong. Please try again.");
     } finally {
