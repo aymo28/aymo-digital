@@ -627,7 +627,7 @@ export function PremiumHome() {
             <p className="hero-stagger hero-stagger-1 eyebrow eyebrow-on-dark"><span className="status-dot" /> Growth, backed by insight</p>
             <h1 className="hero-stagger hero-stagger-2">Grow your business with <span className="hero-brand-name">Aymo Digital</span><span className="typewriter-line">{typeword}<i aria-hidden="true" /></span><span className="sr-only">advanced marketing, smarter strategy and creative growth</span></h1>
             <p className="hero-stagger hero-stagger-3 hero-description">Clear strategy, memorable creative and advanced marketing that turns attention into sustainable growth.</p>
-            <div className="hero-stagger hero-stagger-4"><HeroAudit /></div>
+            <div id="audit" className="hero-stagger hero-stagger-4"><HeroAudit /></div>
             <div className="hero-stagger hero-stagger-4 mt-6 flex flex-col gap-3 sm:flex-row"><MagneticLink to="/services">Explore services</MagneticLink><MagneticLink to="/work" variant="glass">View our work</MagneticLink></div>
             <div className="hero-stagger hero-stagger-5 hero-principles">{["ROI focused", "Data driven", "Creative first", "Clear reporting"].map((item) => <span key={item}><Check className="size-3" />{item}</span>)}</div>
           </div>
