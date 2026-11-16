@@ -23,14 +23,17 @@ export function DashboardOverview() {
     async function fetchData() {
       const thirtyDaysAgo = subDays(new Date(), 30).toISOString();
 
+      // These legacy dashboard tables are not included in the generated schema types.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const fromLegacyTable = (table: string) => (supabase.from as any)(table);
       const [bookingsRes, quotesRes, projectsRes] = await Promise.all([
-        supabase.from("bookings").select("created_at, status").gte("created_at", thirtyDaysAgo),
+        fromLegacyTable("bookings").select("created_at, status").gte("created_at", thirtyDaysAgo),
         supabase.from("quote_requests").select("created_at, status").gte("created_at", thirtyDaysAgo),
-        supabase.from("portfolio").select("id", { count: "exact", head: true }),
+        fromLegacyTable("portfolio").select("id", { count: "exact", head: true }),
       ]);
 
-      const bookings = bookingsRes.data || [];
-      const quotes = quotesRes.data || [];
+      const bookings: { created_at: string; status: string }[] = bookingsRes.data || [];
+      const quotes: { created_at: string; status: string }[] = quotesRes.data || [];
 
       // Process Trend Data
       const days = eachDayOfInterval({
@@ -63,7 +66,7 @@ export function DashboardOverview() {
         statusCounts[b.status] = (statusCounts[b.status] || 0) + 1;
       });
       const statusColors = ["var(--cocoa)", "var(--copper)", "var(--espresso)", "var(--muted-foreground)"];
-      const statuses = Object.entries(statusCounts).map(([name, value], index) => ({ name, value, color: statusColors[index % statusColors.length] }));
+      const statuses = Object.entries(statusCounts).map(([name, value], index) => ({ name, value, color: statusColors[index % statusColors.length] ?? "var(--muted-foreground)" }));
       const positiveBookings = bookings.filter((booking) => booking.status === "confirmed" || booking.status === "completed").length;
       const conversion = bookings.length ? Math.round((positiveBookings / bookings.length) * 100) : 0;
 
