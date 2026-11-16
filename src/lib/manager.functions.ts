@@ -48,7 +48,9 @@ async function assertModuleOrAdmin(
   const userId = context.userId as string;
   if (!userId) throw new Error("Unauthorized");
 
-  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
   // 1. Check if admin
   const { data: adminRole } = await supabaseAdmin
@@ -121,7 +123,9 @@ export const getManagerAccounts = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertAdmin(context as never);
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     // 1. Fetch from staff_members
     const { data: staffRows } = await supabaseAdmin
@@ -134,10 +138,10 @@ export const getManagerAccounts = createServerFn({ method: "GET" })
     // 2. Fetch from auth.users to discover any manager accounts (like ali, adeela)
     const { data: userList } = await supabaseAdmin.auth.admin.listUsers();
     const authManagers = (userList?.users ?? []).filter(
-      (u) =>
-        u.user_metadata?.is_manager === true ||
-        u.user_metadata?.role === "manager" ||
-        u.user_metadata?.role_key === "smm",
+      (u: { user_metadata?: Record<string, unknown> }) =>
+        u.user_metadata?.["is_manager"] === true ||
+        u.user_metadata?.["role"] === "manager" ||
+        u.user_metadata?.["role_key"] === "smm",
     );
 
     // 3. Auto-sync auth managers into staff_members if missing
@@ -214,14 +218,16 @@ export const createManagerAccount = createServerFn({ method: "POST" })
       throw new Error("Please assign at least one module permission for this manager.");
     }
 
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     let createdUserId: string | null = null;
 
     // 1. Check if user already exists in auth.users
     const { data: userList } = await supabaseAdmin.auth.admin.listUsers();
     const existingAuthUser = userList?.users?.find(
-      (u) => u.email?.toLowerCase().trim() === email,
+      (u: { email?: string }) => u.email?.toLowerCase().trim() === email,
     );
 
     if (existingAuthUser) {
@@ -323,7 +329,9 @@ export const updateManagerAccount = createServerFn({ method: "POST" })
   .validator((input: ManagerUpdateInput) => input)
   .handler(async ({ data, context }) => {
     await assertAdmin(context as never);
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: existing, error: sErr } = await supabaseAdmin
       .from("staff_members")
@@ -362,7 +370,7 @@ export const updateManagerAccount = createServerFn({ method: "POST" })
     let authUserId = existing.user_id;
     if (!authUserId) {
       const { data: userList } = await supabaseAdmin.auth.admin.listUsers();
-      const match = userList?.users?.find((u) => u.email?.toLowerCase().trim() === email);
+      const match = userList?.users?.find((u: { email?: string; id: string }) => u.email?.toLowerCase().trim() === email);
       if (match) {
         authUserId = match.id;
         await supabaseAdmin.from("staff_members").update({ user_id: authUserId }).eq("id", data.id);
@@ -413,7 +421,9 @@ export const deleteManagerAccount = createServerFn({ method: "POST" })
   .validator((input: { id: string }) => input)
   .handler(async ({ data, context }) => {
     await assertAdmin(context as never);
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: existing } = await supabaseAdmin
       .from("staff_members")
@@ -444,7 +454,9 @@ export const getManagerAnalyticsData = createServerFn({ method: "GET" })
   .validator((input: { days?: number } = {}) => input)
   .handler(async ({ data, context }) => {
     await assertModuleOrAdmin(context, "analytics");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const days = data?.days ?? 7;
     const since = new Date(Date.now() - days * 86400000).toISOString();
@@ -476,7 +488,9 @@ export const getManagerBookingsData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "bookings");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: bookings, error } = await supabaseAdmin
       .from("bookings")
@@ -492,7 +506,9 @@ export const getManagerMessagesData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "messages");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: messages, error } = await supabaseAdmin
       .from("contact_messages")
@@ -508,7 +524,9 @@ export const getManagerQuotesData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "quotes");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: quotes, error } = await supabaseAdmin
       .from("quote_requests")
@@ -524,7 +542,9 @@ export const getManagerPixelsData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "pixels");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: pixels, error } = await supabaseAdmin
       .from("tracking_pixels")
@@ -539,7 +559,9 @@ export const getManagerCrmData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "crm");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: leads, error } = await supabaseAdmin
       .from("leads")
@@ -555,7 +577,9 @@ export const getManagerNewsletterData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "newsletter");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: subscribers, error } = await supabaseAdmin
       .from("newsletter_subscribers")
@@ -571,7 +595,9 @@ export const getManagerBlogData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "blog");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: posts, error } = await supabaseAdmin
       .from("blog_posts")
@@ -587,7 +613,9 @@ export const getManagerOverviewCounts = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     const { modules, isAdmin } = await assertModuleOrAdmin(context);
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const counts: Record<string, number> = {};
 
@@ -738,7 +766,9 @@ export const getManagerServicesData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "services");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: services, error } = await supabaseAdmin
       .from("services")
@@ -754,7 +784,9 @@ export const getManagerPortfolioData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "portfolio");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: items, error } = await supabaseAdmin
       .from("portfolio")
@@ -770,7 +802,9 @@ export const getManagerTestimonialsData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "testimonials");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: items, error } = await supabaseAdmin
       .from("testimonials")
@@ -786,7 +820,9 @@ export const getManagerFaqsData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "faqs");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: items, error } = await supabaseAdmin
       .from("faqs")

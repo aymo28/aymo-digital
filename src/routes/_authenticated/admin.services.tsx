@@ -73,8 +73,8 @@ export const Route = createFileRoute("/_authenticated/admin/services")({
         { key: "title", label: "Title" },
         { key: "slug", label: "Slug" },
         { key: "sort_order", label: "Order" },
-        { key: "featured", label: "Featured", render: (r) => (r.featured ? "★" : "") },
-        { key: "published", label: "Live", render: (r) => (r.published ? "✓" : "—") },
+        { key: "featured", label: "Featured", render: (r) => (r["featured"] ? "★" : "") },
+        { key: "published", label: "Live", render: (r) => (r["published"] ? "✓" : "—") },
       ]}
     />
   ),

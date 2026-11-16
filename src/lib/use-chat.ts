@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const db = (table: string) => (supabase.from as any)(table);
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -459,7 +459,7 @@ export async function openDirectConversation(me: Me, other: DirectoryPerson): Pr
     .eq("user_id", other.user_id);
 
   const existing = (shared ?? []).find(
-    (r) =>
+    (r: { conversation_id: string; conversations: { kind: string } | null }) =>
       (r as unknown as { conversations: { kind: string } | null }).conversations?.kind === "direct"
   );
   if (existing) return (existing as { conversation_id: string }).conversation_id;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Users, Building2 } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 
 type Member = {
   name: string;
@@ -17,6 +17,10 @@ type Client = {
   am_id?: string | null;
   avatar_url?: string | null;
 };
+
+// These client-portal tables/functions are not part of the generated public schema types.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const legacyTable = (table: string) => (supabase.from as any)(table);
 
 /** Shows the team assigned to a project, and (for staff/admin) the client it belongs to. */
 export function ProjectConnections({
@@ -35,8 +39,7 @@ export function ProjectConnections({
     async function loadData() {
       // 1. Fetch team assignments
       try {
-        const { data: assignments, error } = await supabase
-          .from("project_assignments")
+        const { data: assignments, error } = await legacyTable("project_assignments")
           .select(`
             role_on_project,
             department_slug,
@@ -71,7 +74,8 @@ export function ProjectConnections({
           }
         } else {
           // Fallback: try RPC in case it's defined on some deployments
-          const { data: rpcData } = await supabase.rpc("project_team", { _project: projectId });
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const { data: rpcData } = await (supabase.rpc as any)("project_team", { _project: projectId });
           if (active && rpcData && Array.isArray(rpcData) && rpcData.length > 0) {
             setTeam(rpcData as Member[]);
           }
@@ -83,15 +87,13 @@ export function ProjectConnections({
       // 2. Fetch client if needed
       if (showClient) {
         try {
-          const { data: proj } = await supabase
-            .from("projects")
+          const { data: proj } = await legacyTable("projects")
             .select("client_id")
             .eq("id", projectId)
             .maybeSingle();
 
           if (proj?.client_id) {
-            const { data: clientData } = await supabase
-              .from("portal_clients")
+            const { data: clientData } = await legacyTable("portal_clients")
               .select("name, company")
               .eq("id", proj.client_id)
               .maybeSingle();

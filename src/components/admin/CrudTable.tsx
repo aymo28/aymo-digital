@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { Plus, Pencil, Trash2, Loader2, X, Save, Upload, ImageIcon, GripVertical } from "lucide-react";
 
 export type FieldType = "text" | "textarea" | "number" | "boolean" | "tags" | "select" | "image" | "media" | "repeater";
@@ -133,11 +133,11 @@ function FieldEditor({ field, value, onChange, table }: { field: FieldDef; value
               </div>
               <div className="flex gap-1">
                 {idx > 0 && (
-                  <button type="button" onClick={() => { const c = [...items]; [c[idx-1], c[idx]] = [c[idx], c[idx-1]]; setItems(c); }}
+                  <button type="button" onClick={() => { const c = [...items]; const previous = c[idx - 1]; const current = c[idx]; if (previous && current) { c[idx - 1] = current; c[idx] = previous; } setItems(c); }}
                     className="rounded-lg border border-espresso/15 px-2 py-1 text-xs font-bold text-espresso hover:bg-white">↑</button>
                 )}
                 {idx < items.length - 1 && (
-                  <button type="button" onClick={() => { const c = [...items]; [c[idx+1], c[idx]] = [c[idx], c[idx+1]]; setItems(c); }}
+                  <button type="button" onClick={() => { const c = [...items]; const current = c[idx]; const next = c[idx + 1]; if (current && next) { c[idx] = next; c[idx + 1] = current; } setItems(c); }}
                     className="rounded-lg border border-espresso/15 px-2 py-1 text-xs font-bold text-espresso hover:bg-white">↓</button>
                 )}
                 <button type="button" onClick={() => setItems(items.filter((_, i) => i !== idx))}
@@ -204,9 +204,9 @@ export function CrudTable({ table, title, fields, listColumns, orderBy, defaults
     setSaving(true);
     setError(null);
     const payload = { ...editing };
-    const id = payload.id as string | undefined;
-    delete payload.created_at;
-    delete payload.updated_at;
+    const id = payload["id"] as string | undefined;
+    delete payload["created_at"];
+    delete payload["updated_at"];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const t: any = (supabase.from as any)(table);
     const res = id ? await t.update(payload).eq("id", id) : await t.insert(payload);
@@ -265,7 +265,7 @@ export function CrudTable({ table, title, fields, listColumns, orderBy, defaults
               </thead>
               <tbody className="divide-y divide-espresso/6">
                 {rows.map((r) => (
-                  <tr key={String(r.id)} className="hover:bg-purple-50/50 transition-colors">
+                  <tr key={String(r["id"])} className="hover:bg-purple-50/50 transition-colors">
                     {listColumns.map((c) => (
                       <td key={c.key} className="px-4 py-3 align-top text-espresso">
                         {c.render ? c.render(r) : String(r[c.key] ?? "")}
@@ -274,7 +274,7 @@ export function CrudTable({ table, title, fields, listColumns, orderBy, defaults
                     <td className="px-4 py-3 text-right">
                       <div className="inline-flex gap-1">
                         <button onClick={() => setEditing(r)} className="rounded-lg p-2 text-purple-700 hover:bg-purple-100 transition-colors"><Pencil className="h-3.5 w-3.5" /></button>
-                        <button onClick={() => remove(String(r.id))} className="rounded-lg p-2 text-red-600 hover:bg-red-50"><Trash2 className="h-3.5 w-3.5" /></button>
+                        <button onClick={() => remove(String(r["id"]))} className="rounded-lg p-2 text-red-600 hover:bg-red-50"><Trash2 className="h-3.5 w-3.5" /></button>
                       </div>
                     </td>
                   </tr>
@@ -289,7 +289,7 @@ export function CrudTable({ table, title, fields, listColumns, orderBy, defaults
         <div className="fixed inset-0 z-50 grid place-items-center bg-espresso/50 p-4" onClick={() => !saving && setEditing(null)}>
           <div className="max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-white p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="font-display text-xl font-black text-espresso">{editing.id ? "Edit" : "Create"} {title.replace(/s$/, "")}</h2>
+              <h2 className="font-display text-xl font-black text-espresso">{editing["id"] ? "Edit" : "Create"} {title.replace(/s$/, "")}</h2>
               <button onClick={() => setEditing(null)} className="rounded-full p-1.5 hover:bg-sand"><X className="h-4 w-4" /></button>
             </div>
             <div className="space-y-6">

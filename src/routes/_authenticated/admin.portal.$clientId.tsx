@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { updateClientCredentials, deleteClientAccount, repairClientLink } from "@/lib/portal.functions";
 import {
   ArrowLeft, Loader2, Upload, UserRound, ListChecks, Send, Bell, FileText, LifeBuoy, FolderKanban,
@@ -70,7 +70,7 @@ function ClientPage() {
     ]);
     setStats({
       projects: p.count ?? 0, openTasks: t.count ?? 0, tickets: s.count ?? 0,
-      due: (i.data ?? []).reduce((a, r) => a + Math.max(0, Number(r.total) - Number(r.amount_paid)), 0),
+      due: (i.data ?? []).reduce((a: number, r: { total: number; amount_paid: number }) => a + Math.max(0, Number(r.total) - Number(r.amount_paid)), 0),
     });
   }, [clientId]);
   useEffect(() => { load(); }, [load]);
@@ -274,7 +274,7 @@ function TeamTab({ clientId }: { clientId: string }) {
   const load = useCallback(async () => {
     const { data: p } = await supabase.from("projects").select("id, title").eq("client_id", clientId).order("created_at", { ascending: false });
     setProjects(p ?? []);
-    const ids = (p ?? []).map((x) => x.id);
+    const ids = (p ?? []).map((x: { id: string; title: string }) => x.id);
     const [{ data: s }, { data: a }] = await Promise.all([
       supabase.from("staff_members").select("id, name, job_title, role, department_slug, avatar_url").eq("active", true).order("name"),
       ids.length ? supabase.from("project_assignments").select("id, project_id, staff_id").in("project_id", ids) : Promise.resolve({ data: [] as { id: string; project_id: string; staff_id: string }[] }),
@@ -331,7 +331,7 @@ function TeamTab({ clientId }: { clientId: string }) {
 
 function ActivityTab({ clientId }: { clientId: string }) {
   const [rows, setRows] = useState<{ id: string; action: string; description: string | null; actor: string; created_at: string }[]>([]);
-  useEffect(() => { supabase.from("client_activities").select("*").eq("client_id", clientId).order("created_at", { ascending: false }).limit(100).then(({ data }) => setRows(data ?? [])); }, [clientId]);
+  useEffect(() => { supabase.from("client_activities").select("*").eq("client_id", clientId).order("created_at", { ascending: false }).limit(100).then(({ data }: { data: { id: string; action: string; description: string | null; actor: string; created_at: string }[] | null }) => setRows(data ?? [])); }, [clientId]);
   return rows.length === 0 ? <p className="text-sm text-espresso/60">No activity yet.</p> : (
     <ul className="space-y-3 border-l-2 border-sand pl-4">
       {rows.map((r) => (

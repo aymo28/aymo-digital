@@ -1,6 +1,6 @@
 import { type ReactNode, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { useStaffMember, type StaffMember } from "@/lib/use-staff";
 import { STAFF_MODULES, roleLabel } from "@/lib/staff-roles";
 import {

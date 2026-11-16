@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PortalShell, PortalHeading } from "@/components/portal/PortalShell";
 import { usePortalRows } from "@/lib/use-portal";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { useEffect, useState } from "react";
 import { Loader2, Send, LifeBuoy, ChevronDown, ChevronUp, MessageSquare, Clock, CheckCircle2, AlertCircle, PlusCircle, X } from "lucide-react";
 
@@ -168,7 +168,7 @@ function Support({ clientId, clientName }: { clientId: string; clientName: strin
       ) : (
         <div className="space-y-3">
           {rows.map((t) => {
-            const statusData = STATUS_INFO[t.status] ?? STATUS_INFO.open;
+            const statusData = STATUS_INFO[t.status] ?? { label: "Open", cls: "bg-[#EAF7FF] text-[#12344D] border border-[#BDE7FF]", icon: Clock };
             const StatusIcon = statusData.icon;
             const ticketReplies = replies.filter((r) => r.ticket_id === t.id);
             const isExpanded = expanded === t.id;

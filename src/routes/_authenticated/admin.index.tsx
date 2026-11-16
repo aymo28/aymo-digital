@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { Wrench, Briefcase, Star, Users, MessageSquare, ArrowRight, Tag, HelpCircle, FileText, Building2, GitBranch, BarChart3, BookOpen, FileSignature, CalendarCheck, Mail } from "lucide-react";
 import { DashboardOverview } from "@/components/admin/DashboardOverview";
 

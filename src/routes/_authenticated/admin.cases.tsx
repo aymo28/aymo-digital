@@ -23,7 +23,7 @@ export const Route = createFileRoute("/_authenticated/admin/cases")({
         { key: "client", label: "Client" },
         { key: "category", label: "Category" },
         { key: "sort_order", label: "Order" },
-        { key: "published", label: "Live", render: (r) => (r.published ? "✓" : "—") },
+        { key: "published", label: "Live", render: (r) => (r["published"] ? "✓" : "—") },
       ]}
     />
   ),

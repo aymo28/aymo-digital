@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { useServerFn } from "@tanstack/react-start";
 import { createClientAccount, updateClientCredentials, deleteClientAccount, repairClientLink } from "@/lib/portal.functions";
 import { Loader2, Plus, Trash2, KeyRound, X, Users, AlertTriangle, RefreshCw } from "lucide-react";

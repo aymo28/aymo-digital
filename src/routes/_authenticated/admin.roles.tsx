@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { createClient } from "@supabase/supabase-js";
 import { useServerFn } from "@tanstack/react-start";
 import {
@@ -144,7 +144,8 @@ function AdminRolesPage() {
     setFormName("");
     setFormEmail("");
     setFormPassword("");
-    applyPreset(ROLE_PRESETS[0]); // SMM default preset
+    const defaultPreset = ROLE_PRESETS[0];
+    if (defaultPreset) applyPreset(defaultPreset); // SMM default preset
     setError(null);
     setSuccess(null);
     setModalOpen(true);
@@ -214,7 +215,7 @@ function AdminRolesPage() {
             id: editingStaff.id,
             name: formName,
             email: formEmail,
-            password: formPassword || undefined,
+            ...(formPassword ? { password: formPassword } : {}),
             roleTitle: formRoleTitle,
             roleKey: formRoleKey,
             department: formDepartment,

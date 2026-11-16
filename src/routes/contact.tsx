@@ -20,11 +20,12 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PageHero, Reveal, SiteFooter, SiteHeader } from "@/components/site";
 import { services } from "@/lib/services-data";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 
 export const Route = createFileRoute("/contact")({
-  validateSearch: (search: Record<string, unknown>): { service?: string; challenge?: string } => {
-    const result: { service?: string; challenge?: string } = {};
+  validateSearch: (search: Record<string, unknown>): { mode?: string; service?: string; challenge?: string } => {
+    const result: { mode?: string; service?: string; challenge?: string } = {};
+    if (typeof search["mode"] === "string") result.mode = search["mode"];
     if (typeof search["service"] === "string") result.service = search["service"];
     if (typeof search["challenge"] === "string") result.challenge = search["challenge"];
     return result;

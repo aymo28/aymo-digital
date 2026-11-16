@@ -43,6 +43,13 @@
       "when": 1791987427135,
       "tag": "0005_visitor_analytics_and_portal_client_fn",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794849961533,
+      "tag": "0006_validate_public_form_submissions",
+      "breakpoints": true
     }
   ]
 }

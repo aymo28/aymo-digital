@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StaffShell, StaffHeading, StaffEmpty } from "@/components/portal/StaffShell";
 import { useStaffRows } from "@/lib/use-staff";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 
 export const Route = createFileRoute("/staff/messages")({
   head: () => ({

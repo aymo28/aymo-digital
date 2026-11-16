@@ -31,9 +31,9 @@ function visitSource(): Record<string, string> {
     const campaign = q.get("utm_campaign");
     const medium = q.get("utm_medium");
     const fbclid = q.get("fbclid");
-    if (campaign) info.campaign = campaign.slice(0, 100);
-    if (medium) info.medium = medium.slice(0, 60);
-    if (fbclid) info.fbclid = fbclid.slice(0, 200);
+    if (campaign) info["campaign"] = campaign.slice(0, 100);
+    if (medium) info["medium"] = medium.slice(0, 60);
+    if (fbclid) info["fbclid"] = fbclid.slice(0, 200);
     sessionStorage.setItem(SRC_KEY, JSON.stringify(info));
     return info;
   } catch {
@@ -63,7 +63,7 @@ export function VisitorTracker() {
     const id = window.setInterval(() => {
       if (document.visibilityState !== "visible") return;
       if (PRIVATE.test(window.location.pathname)) return;
-      track("heartbeat", { source: visitSource().source });
+      track("heartbeat", { source: visitSource()["source"] });
     }, HEARTBEAT_MS);
     return () => window.clearInterval(id);
   }, []);

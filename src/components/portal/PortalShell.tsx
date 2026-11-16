@@ -1,6 +1,6 @@
 import { type ReactNode, useEffect, useState, useMemo } from "react";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { usePortalClient } from "@/lib/use-portal";
 import {
   LayoutDashboard, FolderKanban, ListChecks, ReceiptText, MessagesSquare, Bell,
@@ -44,11 +44,13 @@ export function PortalHeading({
 export function EmptyState({
   icon: Icon,
   title,
+  label,
   description,
   action,
 }: {
   icon?: React.ElementType;
-  title: string;
+  title?: string;
+  label?: string;
   description?: string;
   action?: ReactNode;
 }) {
@@ -59,7 +61,7 @@ export function EmptyState({
           <Icon className="h-6 w-6" />
         </div>
       )}
-      <h3 className="font-heading text-base font-bold text-[#24262B]">{title}</h3>
+      <h3 className="font-heading text-base font-bold text-[#24262B]">{title ?? label}</h3>
       {description && <p className="mt-1.5 max-w-sm text-xs text-[#85858D]">{description}</p>}
       {action && <div className="mt-4">{action}</div>}
     </div>

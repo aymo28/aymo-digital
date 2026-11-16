@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { useServerFn } from "@tanstack/react-start";
 import { createStaffAccount, updateStaffCredentials, deleteStaffAccount } from "@/lib/staff.functions";
 import { STAFF_MODULES, STAFF_ROLES, defaultModules, roleLabel, type StaffModuleKey } from "@/lib/staff-roles";
@@ -475,7 +475,7 @@ function ProjectsTab({ staff }: { staff: Staff }) {
       supabase.from("project_assignments").select("id, project_id").eq("staff_id", staff.id),
     ]);
     setClients(c ?? []); setProjects(p ?? []);
-    setAssigned(Object.fromEntries((a ?? []).map((r) => [r.project_id, r.id])));
+    setAssigned(Object.fromEntries((a ?? []).map((r: { project_id: string; id: string }) => [r.project_id, r.id])));
   }, [staff.id]);
   useEffect(() => { load(); }, [load]);
 

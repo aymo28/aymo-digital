@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import {
   X, Sparkles, Code2, Smartphone, Bot, Palette, Rocket, Cloud,
   CheckCircle2, ArrowRight, ArrowLeft, Loader2, DollarSign, Calendar, FileText
@@ -78,10 +78,10 @@ export function ProjectRequestModal({
   onCreated?: () => void;
 }) {
   const [step, setStep] = useState<1 | 2 | 3>(1);
-  const [service, setService] = useState(SERVICES[0].id);
+  const [service, setService] = useState(SERVICES[0]?.id ?? "");
   const [title, setTitle] = useState("");
-  const [budget, setBudget] = useState(BUDGETS[1].label);
-  const [timeline, setTimeline] = useState(TIMELINES[1].label);
+  const [budget, setBudget] = useState(BUDGETS[1]?.label ?? "Discuss budget");
+  const [timeline, setTimeline] = useState(TIMELINES[1]?.label ?? "Standard Delivery");
   const [description, setDescription] = useState("");
   const [referenceUrl, setReferenceUrl] = useState("");
   const [busy, setBusy] = useState(false);

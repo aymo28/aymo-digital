@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { Activity, Eye, Users, Target, Radio, Globe, Flame, Trophy, Loader2, Info } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin/analytics")({
@@ -57,11 +57,11 @@ function AnalyticsPage() {
     if (ev.error) setErr(ev.error.message);
     setEvents((ev.data as Ev[]) ?? []);
     const all: Lead[] = [
-      ...(ld.data ?? []).map((r) => ({ kind: "CRM lead", name: r.name, email: r.email, phone: r.phone, service: r.service, source: r.source || "manual", created_at: r.created_at })),
-      ...(qr.data ?? []).map((r) => ({ kind: "Quote request", name: r.name, email: r.email, phone: r.phone, service: r.service, source: "quote form", created_at: r.created_at })),
-      ...(bk.data ?? []).map((r) => ({ kind: "Booking", name: r.name, email: r.email, phone: r.phone, service: r.service, source: "booking form", created_at: r.created_at })),
-      ...(cm.data ?? []).map((r) => ({ kind: "Contact message", name: r.name, email: r.email, phone: null, service: r.subject, source: "contact form", created_at: r.created_at })),
-      ...(nl.data ?? []).map((r) => ({ kind: "Newsletter", name: "—", email: r.email, phone: null, service: null, source: r.source || "newsletter", created_at: r.created_at })),
+      ...(ld.data ?? []).map((r: { name: string; email: string; phone: string | null; service: string | null; source: string; created_at: string }) => ({ kind: "CRM lead", name: r.name, email: r.email, phone: r.phone, service: r.service, source: r.source || "manual", created_at: r.created_at })),
+      ...(qr.data ?? []).map((r: { name: string; email: string; phone: string | null; service: string | null; created_at: string }) => ({ kind: "Quote request", name: r.name, email: r.email, phone: r.phone, service: r.service, source: "quote form", created_at: r.created_at })),
+      ...(bk.data ?? []).map((r: { name: string; email: string; phone: string | null; service: string | null; created_at: string }) => ({ kind: "Booking", name: r.name, email: r.email, phone: r.phone, service: r.service, source: "booking form", created_at: r.created_at })),
+      ...(cm.data ?? []).map((r: { name: string; email: string; subject: string | null; created_at: string }) => ({ kind: "Contact message", name: r.name, email: r.email, phone: null, service: r.subject, source: "contact form", created_at: r.created_at })),
+      ...(nl.data ?? []).map((r: { email: string; source: string; created_at: string }) => ({ kind: "Newsletter", name: "—", email: r.email, phone: null, service: null, source: r.source || "newsletter", created_at: r.created_at })),
     ].sort((a, b) => b.created_at.localeCompare(a.created_at));
     setLeads(all);
     setLoading(false);
@@ -85,12 +85,12 @@ function AnalyticsPage() {
   const visitors = new Set(views.map((e) => e.session_id)).size;
   const topPages = count(views, (e) => e.path).slice(0, 10);
   const topEvents = count(events, (e) => e.event).slice(0, 10);
-  const sources = count(views, (e) => String(e.meta?.source ?? "direct"));
-  const devices = count(views, (e) => (e.meta?.device as string) ?? null);
+  const sources = count(views, (e) => String(e.meta?.["source"] ?? "direct"));
+  const devices = count(views, (e) => (e.meta?.["device"] as string) ?? null);
   const leadSources = count(leads, (l) => l.source);
   const serviceDemand = count(leads, (l) => l.service?.trim() || null).slice(0, 8);
   const serviceViews = count(views.filter((e) => e.path.startsWith("/services/")), (e) => e.path.replace("/services/", "")).slice(0, 8);
-  const fbClicks = views.filter((e) => e.meta?.fbclid).length;
+  const fbClicks = views.filter((e) => e.meta?.["fbclid"]).length;
 
   return (
     <div>
@@ -128,7 +128,7 @@ function AnalyticsPage() {
             {liveVisitors.slice(0, 12).map((v) => (
               <div key={v.session_id} className="flex items-center justify-between rounded-xl bg-white px-3 py-2 text-xs">
                 <span className="truncate font-semibold text-espresso">{v.path}</span>
-                <span className="ml-2 shrink-0 rounded-full bg-sand px-2 py-0.5 text-[10px] font-bold uppercase text-espresso/70">{String(v.meta?.source ?? "direct")}</span>
+                <span className="ml-2 shrink-0 rounded-full bg-sand px-2 py-0.5 text-[10px] font-bold uppercase text-espresso/70">{String(v.meta?.["source"] ?? "direct")}</span>
               </div>
             ))}
           </div>

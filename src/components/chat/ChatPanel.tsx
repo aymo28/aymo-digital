@@ -45,7 +45,7 @@ function Avatar({
 }: {
   name: string;
   size?: number;
-  status?: PresenceStatus;
+  status?: PresenceStatus | undefined;
 }) {
   return (
     <span className={`relative shrink-0 grid h-${size} w-${size} place-items-center rounded-full bg-primary/10 text-xs font-black text-primary`}>
@@ -119,10 +119,11 @@ function ReactionBar({ msg, meId, convId }: { msg: ChatMessage; meId: string; co
   // Group by emoji
   const grouped: Record<string, { count: number; users: string[]; myReaction: boolean }> = {};
   for (const r of msg.reactions) {
-    if (!grouped[r.emoji]) grouped[r.emoji] = { count: 0, users: [], myReaction: false };
-    grouped[r.emoji].count++;
-    grouped[r.emoji].users.push(r.user_name ?? "?");
-    if (r.user_id === meId) grouped[r.emoji].myReaction = true;
+    const reaction = grouped[r.emoji] ?? { count: 0, users: [], myReaction: false };
+    reaction.count++;
+    reaction.users.push(r.user_name ?? "?");
+    if (r.user_id === meId) reaction.myReaction = true;
+    grouped[r.emoji] = reaction;
   }
   return (
     <div className="mt-1 flex flex-wrap gap-1">

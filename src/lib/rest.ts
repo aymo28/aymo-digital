@@ -6,8 +6,8 @@
  * using the generated supabase client; everything public goes through here.
  */
 
-const BASE = import.meta.env.VITE_SUPABASE_URL as string;
-const KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
+const BASE = import.meta.env["VITE_SUPABASE_URL"] as string;
+const KEY = import.meta.env["VITE_SUPABASE_PUBLISHABLE_KEY"] as string;
 
 function headers(extra?: Record<string, string>): Record<string, string> {
   return { apikey: KEY, "content-type": "application/json", ...extra };

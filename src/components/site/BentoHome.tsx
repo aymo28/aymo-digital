@@ -331,7 +331,7 @@ function ServiceCard({
   idx: number;
 }) {
   const accent =
-    CARD_ACCENTS[idx % CARD_ACCENTS.length];
+    CARD_ACCENTS[idx % CARD_ACCENTS.length] ?? CARD_ACCENTS[0]!;
 
   const imgSrc = getImageForService(
     s.slug,
@@ -341,9 +341,9 @@ function ServiceCard({
   return (
     <Reveal delay={idx * 70}>
       <Link
-        to="/services/$slug"
+        to="/services/$service"
         params={{
-          slug: s.slug,
+          service: s.slug,
         }}
         className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#DCEAF5] bg-white shadow-soft transition duration-500 hover:-translate-y-2 hover:shadow-luxury"
       >

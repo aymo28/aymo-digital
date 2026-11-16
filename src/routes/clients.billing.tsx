@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PortalShell, PortalHeading } from "@/components/portal/PortalShell";
 import { usePortalRows } from "@/lib/use-portal";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { useEffect, useRef, useState } from "react";
 import {
   Download, ReceiptText, CheckCircle2, Clock, AlertCircle,
@@ -318,11 +318,11 @@ function Billing({
       id: inv.id,
       number: inv.number,
       client_name: inv.client_name || clientName,
-      client_company: clientCompany || undefined,
-      client_email: inv.client_email || clientEmail || undefined,
-      client_phone: clientPhone || undefined,
+      client_company: clientCompany || null,
+      client_email: inv.client_email || clientEmail || null,
+      client_phone: clientPhone || null,
       currency: inv.currency || "USD",
-      items: inv.items || undefined,
+      items: inv.items || null,
       subtotal: inv.subtotal,
       tax: inv.tax,
       total: Number(inv.total || 0),
@@ -373,8 +373,8 @@ function Billing({
       {showRequestForm && (
         <BillingRequestForm
           clientId={clientId}
-          initialTitle={requestPrefill.title}
-          initialAmount={requestPrefill.amount}
+          {...(requestPrefill.title ? { initialTitle: requestPrefill.title } : {})}
+          {...(requestPrefill.amount ? { initialAmount: requestPrefill.amount } : {})}
           onDone={() => {
             setShowRequestForm(false);
             reloadRequests();

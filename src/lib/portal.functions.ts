@@ -12,7 +12,9 @@ export const selfHealPortalLink = createServerFn({ method: "POST" })
   .handler(async ({ context }) => {
     const ctx = context as { userId: string; supabase: { auth: { getUser: () => Promise<{ data: { user: { email?: string } | null } }> } } };
     const userId = ctx.userId;
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     // Get the auth user's email
     const { data: authUser } = await supabaseAdmin.auth.admin.getUserById(userId);
@@ -65,7 +67,9 @@ export const createClientAccount = createServerFn({ method: "POST" })
     const name = String(data.name ?? "").trim();
     if (!name) throw new Error("Client name is required");
 
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: created, error: authErr } = await supabaseAdmin.auth.admin.createUser({
       email,
@@ -109,7 +113,9 @@ export const updateClientCredentials = createServerFn({ method: "POST" })
   .validator((input: { clientId: string; password?: string; email?: string }) => input)
   .handler(async ({ data, context }) => {
     await assertAdmin(context as never);
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: client, error: cErr } = await supabaseAdmin
       .from("portal_clients")
@@ -156,7 +162,9 @@ export const deleteClientAccount = createServerFn({ method: "POST" })
   .validator((input: { clientId: string }) => input)
   .handler(async ({ data, context }) => {
     await assertAdmin(context as never);
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: client } = await supabaseAdmin
       .from("portal_clients")
@@ -180,7 +188,9 @@ export const repairClientLink = createServerFn({ method: "POST" })
   .validator((input: { clientId: string }) => input)
   .handler(async ({ data, context }) => {
     await assertAdmin(context as never);
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     // 1. Get the portal_clients row
     const { data: client, error: cErr } = await supabaseAdmin
@@ -201,7 +211,7 @@ export const repairClientLink = createServerFn({ method: "POST" })
     // 2. Look up auth user by email
     const { data: usersPage } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000, page: 1 });
     const existingAuthUser = (usersPage?.users ?? []).find(
-      (u) => u.email?.toLowerCase() === client.email.toLowerCase(),
+      (u: { email?: string; id: string }) => u.email?.toLowerCase() === client.email.toLowerCase(),
     );
 
     if (existingAuthUser) {

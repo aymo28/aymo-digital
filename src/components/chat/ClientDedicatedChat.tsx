@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import {
   Send, Paperclip, Mic, Smile, Loader2, Phone, Download,
   Bot, Sparkles, Volume2, VolumeX, CheckCheck, Play, Pause,

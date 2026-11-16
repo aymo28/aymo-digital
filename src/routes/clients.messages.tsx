@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PortalShell, PortalHeading, EmptyState } from "@/components/portal/PortalShell";
 import { usePortalRows } from "@/lib/use-portal";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { Star } from "lucide-react";
 import { useState } from "react";
 

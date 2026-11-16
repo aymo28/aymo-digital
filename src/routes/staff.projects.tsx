@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { StaffShell, StaffHeading, StaffEmpty } from "@/components/portal/StaffShell";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { ProjectConnections } from "@/components/portal/ProjectConnections";
 
 export const Route = createFileRoute("/staff/projects")({
@@ -27,7 +27,7 @@ function Projects({ staffId }: { staffId: string }) {
         .from("project_assignments")
         .select("projects(id, title, service, status, progress, start_date, due_date, summary)")
         .eq("staff_id", staffId);
-      setRows(((data ?? []).map((r) => (r as unknown as { projects: Project | null }).projects).filter(Boolean)) as Project[]);
+      setRows(((data ?? []).map((r: { id: string; project_id: string }) => (r as unknown as { projects: Project | null }).projects).filter(Boolean)) as Project[]);
       setLoading(false);
     })();
   }, [staffId]);

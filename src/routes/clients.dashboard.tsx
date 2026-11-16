@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PortalShell } from "@/components/portal/PortalShell";
 import { usePortalRows, usePortalClient } from "@/lib/use-portal";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { useRef, useState, useEffect, useMemo } from "react";
 import {
   FolderKanban, ListChecks, ReceiptText, ArrowRight,
@@ -257,9 +257,16 @@ function Dashboard({
   const backlogPct = projects.length > 0 ? Math.round((backlogProjects.length / projects.length) * 100) : 15;
 
   // Selected tasks for "Today Task" 3-card carousel/row
-  const displayTasks = useMemo(() => {
+  const displayTasks = useMemo<Array<{ id: string; title: string; priority: string; progress: number; ratio: string; color: string }>>(() => {
     if (tasks.length >= 3) {
-      return tasks.slice(0, 3);
+      return tasks.slice(0, 3).map((t, idx) => ({
+        id: t.id,
+        title: t.title,
+        priority: t.priority === "high" ? "High Priority" : "Active Sprint",
+        progress: t.progress || 50,
+        ratio: `${Math.round((t.progress || 50) / 5)}/20`,
+        color: idx % 2 === 0 ? "blue" : "pink",
+      }));
     }
     const placeholders = [
       { id: "t1", title: "Research User", priority: "High Priority", progress: 50, ratio: "10/20", color: "blue" },
@@ -682,7 +689,7 @@ function Dashboard({
                         downloadIcsFile(p.title, {
                           id: p.id,
                           title: p.title,
-                          description: p.summary || undefined,
+                          ...(p.summary ? { description: p.summary } : {}),
                           dueDate: p.due_date,
                         })
                       }
@@ -774,37 +781,25 @@ function Dashboard({
                   onClick={() =>
                     setSelectedInvoice({
                       id: inv.id,
-                      invoiceNumber: inv.number,
-                      date: new Date(inv.created_at).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      }),
-                      dueDate: inv.due_date
-                        ? new Date(inv.due_date).toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                          })
-                        : "Due on Receipt",
-                      status: inv.status as any,
+                      number: inv.number,
+                      client_name: client.name,
+                      client_company: client.company,
+                      client_email: client.email,
                       currency: inv.currency || "USD",
-                      client: {
-                        name: client.name,
-                        company: client.company || undefined,
-                        email: client.email,
-                      },
+                      status: inv.status as any,
                       items: [
                         {
-                          description: inv.notes || "Professional Software & Digital Services",
-                          rate: Number(inv.total),
+                          name: inv.notes || "Professional Software & Digital Services",
+                          price: Number(inv.total),
                           qty: 1,
-                          amount: Number(inv.total),
+                          
                         },
                       ],
                       total: Number(inv.total),
-                      amountPaid: Number(inv.amount_paid || 0),
-                      balanceDue: Math.max(0, Number(inv.total) - Number(inv.amount_paid || 0)),
+                      amount_paid: Number(inv.amount_paid || 0),
+                      due_date: inv.due_date,
+                      created_at: inv.created_at,
+                      notes: inv.notes,
                     })
                   }
                   className="inline-flex items-center gap-1.5 rounded-xl border border-[#ECEBE8] bg-[#FAFAF8] hover:bg-[#E5F3FA] px-3 py-1.5 text-xs font-medium text-[#24262B] transition-colors"
@@ -823,6 +818,7 @@ function Dashboard({
         <ProjectRequestModal
           clientId={client.id}
           clientName={client.name}
+          isOpen={showProjectModal}
           onClose={() => setShowProjectModal(false)}
           onCreated={() => {
             setShowProjectModal(false);
@@ -834,7 +830,7 @@ function Dashboard({
 
       {selectedInvoice && (
         <InvoiceModal
-          data={selectedInvoice}
+          invoice={selectedInvoice}
           onClose={() => setSelectedInvoice(null)}
         />
       )}

@@ -24,7 +24,7 @@ export const Route = createFileRoute("/_authenticated/admin/about")({
         { key: "section_key", label: "Key" },
         { key: "layout", label: "Layout" },
         { key: "sort_order", label: "Order" },
-        { key: "published", label: "Live", render: (r) => (r.published ? "✓" : "—") },
+        { key: "published", label: "Live", render: (r) => (r["published"] ? "✓" : "—") },
       ]}
     />
   ),

@@ -22,9 +22,9 @@ export const Route = createFileRoute("/_authenticated/admin/pricing")({
       listColumns={[
         { key: "name", label: "Plan" },
         { key: "price", label: "Price" },
-        { key: "featured", label: "★", render: (r) => (r.featured ? "★" : "") },
+        { key: "featured", label: "★", render: (r) => (r["featured"] ? "★" : "") },
         { key: "sort_order", label: "Order" },
-        { key: "published", label: "Live", render: (r) => (r.published ? "✓" : "—") },
+        { key: "published", label: "Live", render: (r) => (r["published"] ? "✓" : "—") },
       ]}
     />
   ),

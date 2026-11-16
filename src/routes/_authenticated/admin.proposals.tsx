@@ -30,10 +30,10 @@ export const Route = createFileRoute("/_authenticated/admin/proposals")({
         { name: "valid_until", label: "Valid until (YYYY-MM-DD)", type: "text" },
       ]}
       listColumns={[
-        { key: "created_at", label: "Created", render: (r) => new Date(String(r.created_at)).toLocaleDateString() },
+        { key: "created_at", label: "Created", render: (r) => new Date(String(r["created_at"])).toLocaleDateString() },
         { key: "title", label: "Title" },
         { key: "client_name", label: "Client" },
-        { key: "total", label: "Total", render: (r) => `${r.currency} ${Number(r.total ?? 0).toLocaleString()}` },
+        { key: "total", label: "Total", render: (r) => `${r["currency"]} ${Number(r["total"] ?? 0).toLocaleString()}` },
         { key: "status", label: "Status" },
       ]}
     />

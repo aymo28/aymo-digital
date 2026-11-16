@@ -1,11 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { Loader2, Plus, Trash2, Send, Bell, Edit2, Save, X, Upload, DollarSign, CheckCircle2, Clock, AlertCircle, Receipt, ImageIcon, Eye } from "lucide-react";
 import { InvoiceModal } from "@/components/portal/InvoiceModal";
 import { type InvoiceData } from "@/components/portal/InvoiceDocument";
 
 export const input = "w-full rounded-xl border border-espresso/12 bg-sand/40 px-3 py-2.5 text-sm outline-none focus:border-cocoa focus:bg-white";
 export const label = "text-[10px] font-semibold uppercase tracking-widest text-espresso/60";
+// Client portal tables are provisioned separately and are not in the generated public-table types.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const legacyTable = (table: string) => (supabase.from as any)(table);
+
 export function useTable<T extends { id: string }>(table: string, clientId: string, orderBy = "created_at") {
   const [rows, setRows] = useState<T[]>([]);
   const [loading, setLoading] = useState(true);
@@ -173,8 +177,8 @@ export function SupportTab({ clientId }: { clientId: string }) {
           <p className="whitespace-pre-wrap text-xs text-foreground/60">{t.message}</p>
           <div className="mt-2 flex gap-2">
             <input defaultValue={t.reply ?? ""} placeholder="Write a reply…" className={input}
-              onBlur={async (e) => { if (e.target.value !== (t.reply ?? "")) { await supabase.from("support_requests").update({ reply: e.target.value }).eq("id", t.id); reload(); } }} />
-            <button onClick={async () => { await supabase.from("support_requests").update({ status: t.status === "resolved" ? "open" : "resolved" }).eq("id", t.id); reload(); }}
+              onBlur={async (e) => { if (e.target.value !== (t.reply ?? "")) { await legacyTable("support_requests").update({ reply: e.target.value }).eq("id", t.id); reload(); } }} />
+            <button onClick={async () => { await legacyTable("support_requests").update({ status: t.status === "resolved" ? "open" : "resolved" }).eq("id", t.id); reload(); }}
               className="shrink-0 rounded-full border border-espresso/15 px-3 py-2 text-xs font-bold text-espresso hover:bg-white">
               {t.status === "resolved" ? "Reopen" : "Resolve"}
             </button>
@@ -207,7 +211,7 @@ export function ProjectsTab({ clientId }: { clientId: string }) {
           <p className="text-sm font-bold text-espresso">{p.title}</p>
           <div className="mt-1 flex items-center gap-2">
             <input type="range" min={0} max={100} defaultValue={p.progress}
-              onMouseUp={async (e) => { await supabase.from("projects").update({ progress: Number((e.target as HTMLInputElement).value) }).eq("id", p.id); reload(); }}
+              onMouseUp={async (e) => { await legacyTable("projects").update({ progress: Number((e.target as HTMLInputElement).value) }).eq("id", p.id); reload(); }}
               className="w-40" />
             <span className="text-xs text-foreground/60">{p.progress}% · {p.status}</span>
           </div>
@@ -265,7 +269,7 @@ export function InvoicesTab({ clientId, clientName }: { clientId: string; client
   const load = useCallback(async () => {
     setLoading(true);
     const [{ data: inv }, { data: tx }] = await Promise.all([
-      supabase.from("invoices").select("*").eq("client_id", clientId).order("created_at", { ascending: false }),
+      legacyTable("invoices").select("*").eq("client_id", clientId).order("created_at", { ascending: false }),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (supabase.from as any)("payment_transactions").select("*").eq("client_id", clientId).order("created_at", { ascending: false }),
     ]);
@@ -279,7 +283,7 @@ export function InvoicesTab({ clientId, clientName }: { clientId: string; client
   async function createInvoice(e: React.FormEvent) {
     e.preventDefault();
     if (!form.number.trim() || !form.total) return;
-    const { error } = await supabase.from("invoices").insert({
+    const { error } = await legacyTable("invoices").insert({
       client_id: clientId,
       client_name: clientName || "Client",
       number: form.number.trim(),
@@ -306,7 +310,7 @@ export function InvoicesTab({ clientId, clientName }: { clientId: string; client
   }
 
   async function saveEdit(inv: InvoiceRow, patch: Partial<InvoiceRow>) {
-    await supabase.from("invoices").update(patch).eq("id", inv.id);
+    await legacyTable("invoices").update(patch).eq("id", inv.id);
     setEditing(null);
     load();
   }
@@ -315,7 +319,7 @@ export function InvoicesTab({ clientId, clientName }: { clientId: string; client
     if (!confirm("Delete this invoice and all its payments?")) return;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await (supabase.from as any)("payment_transactions").delete().eq("invoice_id", id);
-    await supabase.from("invoices").delete().eq("id", id);
+    await legacyTable("invoices").delete().eq("id", id);
     load();
   }
 
@@ -348,7 +352,7 @@ export function InvoicesTab({ clientId, clientName }: { clientId: string; client
     });
     const newPaid = Number(inv.amount_paid) + amt;
     const newStatus = newPaid >= Number(inv.total) ? "paid" : "partial";
-    await supabase.from("invoices").update({ amount_paid: newPaid, status: newStatus }).eq("id", inv.id);
+    await legacyTable("invoices").update({ amount_paid: newPaid, status: newStatus }).eq("id", inv.id);
     // Notify client
     await insertRow("client_notifications", {
       client_id: clientId,
@@ -467,19 +471,19 @@ export function InvoicesTab({ clientId, clientName }: { clientId: string; client
                   onClick={() =>
                     setSelectedInvoice({
                       id: inv.id,
-                      number: inv.number,
-                      client_name: clientName,
+                      number: inv.number || "AM-INV",
+                      client_name: clientName || "Client",
                       currency: inv.currency,
                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      items: Array.isArray((inv as any).items) ? (inv as any).items : undefined,
+                      items: Array.isArray((inv as any).items) ? (inv as any).items as NonNullable<InvoiceData["items"]> : null,
                       subtotal: (inv as any).subtotal,
-                      tax: (inv as any).tax,
+                      tax: (inv as any).tax == null ? 0 : Number((inv as any).tax),
                       total: Number(inv.total),
                       amount_paid: Number(inv.amount_paid),
-                      status: inv.status,
-                      due_date: inv.due_date,
-                      created_at: inv.created_at,
-                      notes: inv.notes,
+                      status: inv.status ?? "draft",
+                      due_date: inv.due_date ?? null,
+                      created_at: inv.created_at || undefined,
+                      notes: inv.notes ?? null,
                     })
                   }
                   className="inline-flex items-center gap-1 rounded-full border border-primary/40 bg-primary/10 px-3 py-1.5 text-xs font-bold text-primary hover:bg-primary hover:text-white transition-all shadow-xs"
@@ -596,7 +600,7 @@ export function InvoicesTab({ clientId, clientName }: { clientId: string; client
                           // eslint-disable-next-line @typescript-eslint/no-explicit-any
                           await (supabase.from as any)("payment_transactions").delete().eq("id", tx.id);
                           const newPaid = Math.max(0, Number(inv.amount_paid) - Number(tx.amount));
-                          await supabase.from("invoices").update({ amount_paid: newPaid, status: newPaid <= 0 ? "pending" : newPaid >= Number(inv.total) ? "paid" : "partial" }).eq("id", inv.id);
+                          await legacyTable("invoices").update({ amount_paid: newPaid, status: newPaid <= 0 ? "pending" : newPaid >= Number(inv.total) ? "paid" : "partial" }).eq("id", inv.id);
                           load();
                         }} className="rounded-lg p-1 text-red-500 hover:bg-red-50">
                           <Trash2 className="h-3 w-3" />

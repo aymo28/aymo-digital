@@ -38,7 +38,7 @@ import { directors } from "@/lib/company-data";
 import { Button } from "@/components/ui/button";
 import { HeroAudit } from "@/components/hero-audit";
 import { Reveal, SiteFooter, SiteHeader } from "@/components/site";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 
 type Icon = ComponentType<SVGProps<SVGSVGElement>>;
 

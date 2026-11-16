@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PortalShell, PortalHeading } from "@/components/portal/PortalShell";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { useCallback, useEffect, useState } from "react";
 import { Bell, CheckCheck, Info, AlertTriangle, CheckCircle2, Zap, Trash2 } from "lucide-react";
 
@@ -148,7 +148,7 @@ function Notifications({ clientId }: { clientId: string }) {
       ) : (
         <div className="space-y-2">
           {visible.map((n) => {
-            const meta = KIND_META[n.kind] ?? KIND_META.info;
+            const meta = KIND_META[n.kind] ?? { icon: Info, bg: "bg-[#EAF7FF]", color: "text-[#4BAFE8]" };
             const Icon = meta.icon;
             return (
               <div

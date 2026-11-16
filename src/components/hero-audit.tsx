@@ -4,7 +4,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, Check, Loader2, MessageCircle, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { runWebsiteAudit, type AuditResult } from "@/lib/audit.functions";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 
 function scoreTone(v: number) {
   return v >= 80 ? "good" : v >= 50 ? "ok" : "bad";

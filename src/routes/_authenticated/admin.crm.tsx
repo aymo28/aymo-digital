@@ -23,12 +23,12 @@ export const Route = createFileRoute("/_authenticated/admin/crm")({
         { name: "notes", label: "Notes", type: "textarea" },
       ]}
       listColumns={[
-        { key: "created_at", label: "Added", render: (r) => new Date(String(r.created_at)).toLocaleDateString() },
+        { key: "created_at", label: "Added", render: (r) => new Date(String(r["created_at"])).toLocaleDateString() },
         { key: "name", label: "Name" },
         { key: "email", label: "Email" },
         { key: "service", label: "Service" },
         { key: "source", label: "Source" },
-        { key: "value_usd", label: "Value", render: (r) => `$${Number(r.value_usd ?? 0).toLocaleString()}` },
+        { key: "value_usd", label: "Value", render: (r) => `$${Number(r["value_usd"] ?? 0).toLocaleString()}` },
         { key: "stage", label: "Stage" },
         { key: "priority", label: "Priority" },
       ]}

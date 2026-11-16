@@ -70,7 +70,7 @@ export const Route = createFileRoute("/_authenticated/admin/pixels")({
         { key: "provider", label: "Platform" },
         { key: "label", label: "Label" },
         { key: "pixel_id", label: "ID" },
-        { key: "enabled", label: "Status", render: (r) => (r.enabled ? "Live" : "Off") },
+        { key: "enabled", label: "Status", render: (r) => (r["enabled"] ? "Live" : "Off") },
       ]}
     />
   ),

@@ -18,7 +18,7 @@ export const Route = createFileRoute("/_authenticated/admin/badges")({
         { key: "label", label: "Label" },
         { key: "icon", label: "Icon" },
         { key: "sort_order", label: "Order" },
-        { key: "published", label: "Live", render: (r) => (r.published ? "✓" : "—") },
+        { key: "published", label: "Live", render: (r) => (r["published"] ? "✓" : "—") },
       ]}
     />
   ),
