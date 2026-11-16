@@ -40,7 +40,12 @@ export function DeptPortal({ dept, section }: { dept: DepartmentConfig; section?
     );
   }
 
-  const current = dept.sections.find((s) => s.key === section) ?? dept.sections[0];
+  const current = dept.sections.find((s) => s.key === section) ?? dept.sections[0] ?? {
+    key: "overview",
+    label: "Overview",
+    icon: Menu,
+    Component: () => <p className="rounded-2xl border border-border bg-card p-6 text-sm text-muted-foreground">No portal sections are available.</p>,
+  };
   const Comp = current.Component;
 
   return (

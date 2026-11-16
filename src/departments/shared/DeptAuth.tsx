@@ -37,7 +37,7 @@ export function DeptAuth({ dept }: { dept: DepartmentConfig }) {
   }
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => { if (data?.user) route(data.user.id, false); });
+    supabase.auth.getUser().then((result: { data: { user: { id: string } | null } }) => { if (result.data?.user) route(result.data.user.id, false); });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

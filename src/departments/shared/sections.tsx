@@ -107,7 +107,7 @@ export interface Col {
 export function RecordsSection({
   staff, table, title, subtitle, cols, withStaff = true, titleKey,
 }: {
-  staff: StaffMember; table: string; title: string; subtitle?: string; cols: Col[]; withStaff?: boolean; titleKey: string;
+  staff: StaffMember; table: string; title: string; subtitle?: string | undefined; cols: Col[]; withStaff?: boolean; titleKey: string;
 }) {
   const { projects, projectIds } = useMyProjects(staff.id);
   const { rows, loading, reload } = useProjectScopedRows<Record<string, unknown> & { id: string }>(table, projectIds);
@@ -119,7 +119,7 @@ export function RecordsSection({
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
-    if (!form.project_id) { setErr("Select a project."); return; }
+    if (!form["project_id"]) { setErr("Select a project."); return; }
     setBusy(true); setErr(null);
     try {
       const values: Record<string, unknown> = {};
@@ -128,8 +128,8 @@ export function RecordsSection({
         if (v === undefined || v === "") continue;
         values[c.key] = c.type === "number" ? Number(v) : v;
       }
-      values.project_id = form.project_id;
-      if (withStaff) values.staff_id = staff.id;
+      values["project_id"] = form["project_id"];
+      if (withStaff) values["staff_id"] = staff.id;
       await insertRow(table, values);
       setForm({}); setOpen(false); reload();
     } catch (e2) { setErr((e2 as Error).message); }
@@ -150,7 +150,7 @@ export function RecordsSection({
         <form onSubmit={save} className="mb-5 grid gap-3 rounded-2xl border border-border bg-card p-4 sm:grid-cols-2">
           <div>
             <label className="text-xs font-semibold text-muted-foreground">Project *</label>
-            <select value={String(form.project_id ?? "")} onChange={(e) => setForm({ ...form, project_id: e.target.value })} className={inputCls}>
+            <select value={String(form["project_id"] ?? "")} onChange={(e) => setForm({ ...form, project_id: e.target.value })} className={inputCls}>
               <option value="">Select…</option>
               {projects.map((p) => <option key={p.id} value={p.id}>{p.title}</option>)}
             </select>
@@ -172,7 +172,7 @@ export function RecordsSection({
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div className="min-w-0">
                   <p className="font-bold text-foreground">{String(r[titleKey] ?? "Untitled")}</p>
-                  <p className="text-xs text-muted-foreground">{projName(r.project_id)}</p>
+                  <p className="text-xs text-muted-foreground">{projName(r["project_id"])}</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
                   {cols.filter((c) => c.inline).map((c) => c.type === "bool" ? (

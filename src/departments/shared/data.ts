@@ -29,7 +29,7 @@ export function useMyProjects(staffId?: string) {
       .select("role_on_project, projects(id, title, service, status, progress, start_date, due_date, summary, client_id, repo_url, staging_url, live_url)")
       .eq("staff_id", staffId);
     const rows = (data ?? [])
-      .map((r) => (r as unknown as { projects: ProjectRow | null }).projects)
+      .map((r: unknown) => (r as { projects: ProjectRow | null }).projects)
       .filter(Boolean) as ProjectRow[];
     setProjects(rows);
     setLoading(false);

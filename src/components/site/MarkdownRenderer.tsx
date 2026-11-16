@@ -63,8 +63,10 @@ function parse(md: string): Block[] {
     // Headings
     const hMatch = line.match(/^(#{1,4})\s+(.*)/);
     if (hMatch) {
-      const level = hMatch[1].length as 1 | 2 | 3 | 4;
-      blocks.push({ type: `h${level}` as BlockType, content: hMatch[2].trim() });
+      const headingMarks = hMatch[1] ?? "#";
+      const headingText = hMatch[2] ?? "";
+      const level = headingMarks.length as 1 | 2 | 3 | 4;
+      blocks.push({ type: `h${level}` as BlockType, content: headingText.trim() });
       i++;
       continue;
     }
