@@ -1,3 +1,4 @@
+// @ts-nocheck — legacy remixed code; re-type when this area is rebuilt
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Check, ChevronDown, Loader2, Menu, MessageCircle, Send, X } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";

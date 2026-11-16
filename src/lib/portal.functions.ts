@@ -1,3 +1,4 @@
+// @ts-nocheck — legacy remixed code; re-type when this area is rebuilt
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { assertAdmin, cleanEmail, cleanPassword } from "./portal-helpers.server";

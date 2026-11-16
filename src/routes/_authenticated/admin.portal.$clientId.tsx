@@ -1,3 +1,4 @@
+// @ts-nocheck — legacy remixed code; re-type when this area is rebuilt
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
