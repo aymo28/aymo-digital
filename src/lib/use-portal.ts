@@ -1,4 +1,3 @@
-// @ts-nocheck — legacy remixed code; re-type when this area is rebuilt
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useServerFn } from "@tanstack/react-start";

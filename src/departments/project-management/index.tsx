@@ -1,4 +1,3 @@
-// @ts-nocheck — legacy remixed code; re-type when this area is rebuilt
 import { useEffect, useState } from "react";
 import { LayoutDashboard, FolderKanban, ListChecks, Users, Bug, MessagesSquare, Loader2 } from "lucide-react";
 import type { DepartmentConfig } from "../types";

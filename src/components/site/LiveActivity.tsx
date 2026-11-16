@@ -1,4 +1,3 @@
-// @ts-nocheck — legacy remixed code; re-type when this area is rebuilt
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Activity, Eye, MessageSquare, ArrowRight, CheckCircle2 } from "lucide-react";

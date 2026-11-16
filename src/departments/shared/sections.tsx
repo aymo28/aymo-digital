@@ -1,4 +1,3 @@
-// @ts-nocheck — legacy remixed code; re-type when this area is rebuilt
 import { useState, lazy, Suspense } from "react";
 import { Loader2, Plus, Trash2, ExternalLink } from "lucide-react";
 import type { StaffMember } from "@/lib/use-staff";

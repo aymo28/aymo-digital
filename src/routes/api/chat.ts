@@ -2,21 +2,21 @@ import { createFileRoute } from "@tanstack/react-router";
 
 type ChatMsg = { role: "user" | "assistant" | "system"; content: string };
 
-const SYSTEM_PROMPT = `You are the AYMO DIGITAL AI assistant — a helpful concierge for AYMO DIGITAL, a digital ecosystem company based in Islamabad, Pakistan, with a presence in the United Kingdom.
+const SYSTEM_PROMPT = `You are the AM Enterprises AI assistant — a helpful concierge for AM Enterprises, a digital ecosystem company based in Islamabad, Pakistan, with a presence in the United Kingdom.
 
-AYMO DIGITAL builds complete digital ecosystems for businesses: strategy, websites, web applications, mobile products, custom software, ERP and CRM systems, AI automation, cloud infrastructure and integrations.
+AM Enterprises builds complete digital ecosystems for businesses: strategy, websites, web applications, mobile products, custom software, ERP and CRM systems, AI automation, cloud infrastructure and integrations.
 
 Key facts:
-- Founder & CEO: Moez Rehman. Co-Founder & Director: Malaika Jahangir.
+- Founder & CEO: Moez Rehman. Co-Founder & CTO: Ayesha Moez.
 - Offices: Islamabad HQ (Office, 6th Road, Techno City, Blue Area), Rawat Technology Park, and United Kingdom.
-- Pakistan: +92 317 371 2950. UK: +44 771 722 9638. Email: info@aymo.digital
-- Website: aymo.digital
+- Pakistan: +92 317 371 2950. UK: +44 771 722 9638. Email: info@amenterprise.tech
+- Website: amenterprise.tech
 
 How to answer:
 - Be concise, warm and genuinely helpful. Use short paragraphs and bullets where useful.
 - For pricing: every project is scoped individually. Suggest booking a free 30-minute discovery call.
 - Answer in the same language the user writes in (English, Urdu, Roman Urdu, Arabic — all fine).
-- If asked about topics unrelated to AYMO DIGITAL, help briefly then bring it back.
+- If asked about topics unrelated to AM Enterprises, help briefly then bring it back.
 - Never claim to be human. You are an AI assistant.
 - Never invent statistics, case studies or client names.`;
 
@@ -64,7 +64,7 @@ export const Route = createFileRoute("/api/chat")({
             return Response.json(
               {
                 reply:
-                  "I'm temporarily offline on this deployment because the AI key isn't configured. Please email info@aymo.digital or call +92 317 371 2950 and our team will help you right away.",
+                  "I'm temporarily offline on this deployment because the AI key isn't configured. Please email info@amenterprise.tech or call +92 317 371 2950 and our team will help you right away.",
                 degraded: true,
               },
               { status: 200 },
@@ -93,7 +93,7 @@ export const Route = createFileRoute("/api/chat")({
                   reply:
                     resp.status === 429
                       ? "We're getting a lot of requests right now — please try again in a few seconds."
-                      : "Our AI assistant is temporarily unavailable. Please email info@aymo.digital and we'll reply fast.",
+                      : "Our AI assistant is temporarily unavailable. Please email info@amenterprise.tech and we'll reply fast.",
                   degraded: true,
                 },
                 { status: 200 },
@@ -109,7 +109,7 @@ export const Route = createFileRoute("/api/chat")({
           return Response.json(
             {
               reply:
-                "Sorry — I couldn't reach the assistant just now. Please email info@aymo.digital or call +92 317 371 2950.",
+                "Sorry — I couldn't reach the assistant just now. Please email info@amenterprise.tech or call +92 317 371 2950.",
               degraded: true,
             },
             { status: 200 },

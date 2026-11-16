@@ -1,4 +1,3 @@
-// @ts-nocheck — legacy remixed code; re-type when this area is rebuilt
 /**
  * HeroSlider — AM Enterprises
  * ─────────────────────────────────────────────────────────────────────────────

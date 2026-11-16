@@ -1,4 +1,3 @@
-// @ts-nocheck — legacy remixed code; re-type when this area is rebuilt
 import { createFileRoute } from "@tanstack/react-router";
 import { PortalShell, PortalHeading, EmptyState } from "@/components/portal/PortalShell";
 import { usePortalRows } from "@/lib/use-portal";

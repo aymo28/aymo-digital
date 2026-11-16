@@ -1,4 +1,3 @@
-// @ts-nocheck — legacy remixed code; re-type when this area is rebuilt
 import { useCallback, useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2, Plus, Trash2, Send, Bell, Edit2, Save, X, Upload, DollarSign, CheckCircle2, Clock, AlertCircle, Receipt, ImageIcon, Eye } from "lucide-react";

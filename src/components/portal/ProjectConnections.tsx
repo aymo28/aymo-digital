@@ -1,4 +1,3 @@
-// @ts-nocheck — legacy remixed code; re-type when this area is rebuilt
 import { useEffect, useState } from "react";
 import { Users, Building2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";

@@ -1,29 +1,29 @@
 /**
- * AYMO DIGITAL — Centralized brand configuration.
+ * AM Enterprises — Centralized brand configuration.
  * All site-wide brand constants live here.
  * Import from this file anywhere you need brand values.
  */
 
 export const BRAND = {
   /** Legal / display company name */
-  name: "AYMO DIGITAL",
+  name: "AM Enterprises",
 
   /** Short tagline used in meta descriptions and sub-headings */
   tagline: "Digital Ecosystems for Ambitious Businesses",
 
   /** Canonical production origin — no trailing slash */
-  url: "https://www.aymo.digital",
+  url: "https://www.amenterprise.tech",
 
   /** Absolute path to the main logo file served from /public */
-  logo: "https://www.aymo.digital/logo.png",
+  logo: "https://www.amenterprise.tech/logo.png",
 
   /** Default OG / Twitter card image */
-  ogImage: "https://www.aymo.digital/logo.png",
+  ogImage: "https://www.amenterprise.tech/logo.png",
 
   /** Contact details */
   contact: {
-    emailGeneral: "info@aymo.digital",
-    emailSupport: "support@aymo.digital",
+    emailGeneral: "info@amenterprise.tech",
+    emailSupport: "support@amenterprise.tech",
 
     phonePK: "+923173712950",
     phonePKDisplay: "+92 317 371 2950",
@@ -51,23 +51,23 @@ export const BRAND = {
   /** Founders — used in JSON-LD structured data */
   founders: [
     { name: "Moez Rehman", title: "Founder & CEO" },
-    { name: "Malaika Jahangir", title: "Co-Founder & Director" },
+    { name: "Ayesha Moez", title: "Co-Founder & CTO" },
   ],
 
   /** Social media profiles */
   social: {
-    linkedin: "https://www.linkedin.com/company/aymodigital",
-    instagram: "https://www.instagram.com/aymo.digital",
-    facebook: "https://www.facebook.com/aymo.digital",
-    twitter: "https://twitter.com/aymodigital",
+    linkedin: "https://www.linkedin.com/company/amenterprise",
+    instagram: "https://www.instagram.com/amenterprise.tech",
+    facebook: "https://www.facebook.com/amenterprise.tech",
+    twitter: "https://twitter.com/amenterprise",
   },
 
   /** Portal name suffixes for <title> tags */
   portals: {
-    client: "AYMO DIGITAL Client Portal",
-    staff: "AYMO DIGITAL Team Portal",
-    admin: "AYMO DIGITAL Admin",
-    department: "AYMO DIGITAL Department Portal",
+    client: "AM Enterprises Client Portal",
+    staff: "AM Enterprises Team Portal",
+    admin: "AM Enterprises Admin",
+    department: "AM Enterprises Department Portal",
   },
 } as const;
 
