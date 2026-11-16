@@ -25,6 +25,7 @@ export const createStaffAccount = createServerFn({ method: "POST" })
     const name = String(data.name ?? "").trim();
     if (!name) throw new Error("Team member name is required");
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
     const supabaseAdmin = typedAdminClient as any;
 
@@ -74,6 +75,7 @@ export const updateStaffCredentials = createServerFn({ method: "POST" })
   .validator((input: { staffId: string; password?: string; email?: string }) => input)
   .handler(async ({ data, context }) => {
     await assertAdmin(context as never);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
     const supabaseAdmin = typedAdminClient as any;
 
@@ -122,6 +124,7 @@ export const deleteStaffAccount = createServerFn({ method: "POST" })
   .validator((input: { staffId: string }) => input)
   .handler(async ({ data, context }) => {
     await assertAdmin(context as never);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
     const supabaseAdmin = typedAdminClient as any;
 

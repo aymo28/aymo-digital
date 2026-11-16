@@ -17,7 +17,8 @@ type AdminContext = {
 /** Throws unless the caller has the admin role. */
 export async function assertAdmin(context: { userId: string }) {
   if (!context?.userId) throw new Error("Unauthorized");
-  const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
     const supabaseAdmin = typedAdminClient as any;
 
   // 1. Check user_roles table via supabaseAdmin (bypasses RLS)

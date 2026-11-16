@@ -12,6 +12,7 @@ export const selfHealPortalLink = createServerFn({ method: "POST" })
   .handler(async ({ context }) => {
     const ctx = context as { userId: string; supabase: { auth: { getUser: () => Promise<{ data: { user: { email?: string } | null } }> } } };
     const userId = ctx.userId;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
     const supabaseAdmin = typedAdminClient as any;
 
@@ -66,6 +67,7 @@ export const createClientAccount = createServerFn({ method: "POST" })
     const name = String(data.name ?? "").trim();
     if (!name) throw new Error("Client name is required");
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
     const supabaseAdmin = typedAdminClient as any;
 
@@ -111,6 +113,7 @@ export const updateClientCredentials = createServerFn({ method: "POST" })
   .validator((input: { clientId: string; password?: string; email?: string }) => input)
   .handler(async ({ data, context }) => {
     await assertAdmin(context as never);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
     const supabaseAdmin = typedAdminClient as any;
 
@@ -159,6 +162,7 @@ export const deleteClientAccount = createServerFn({ method: "POST" })
   .validator((input: { clientId: string }) => input)
   .handler(async ({ data, context }) => {
     await assertAdmin(context as never);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
     const supabaseAdmin = typedAdminClient as any;
 
@@ -184,6 +188,7 @@ export const repairClientLink = createServerFn({ method: "POST" })
   .validator((input: { clientId: string }) => input)
   .handler(async ({ data, context }) => {
     await assertAdmin(context as never);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
     const supabaseAdmin = typedAdminClient as any;
 
