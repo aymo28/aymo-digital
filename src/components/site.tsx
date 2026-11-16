@@ -118,13 +118,13 @@ export function SiteHeader() {
                     </div>
                     <div className="space-y-1 pt-1">
                       {pillar.items.map((s) => (
-                        <Link
+                        <a
                           key={s.to}
-                          to={s.to}
+                          href={s.to}
                           className="block rounded-md px-2.5 py-1.5 text-xs font-semibold text-foreground/80 hover:bg-primary/10 hover:text-primary transition-all"
                         >
                           {s.label}
-                        </Link>
+                        </a>
                       ))}
                     </div>
                   </div>
@@ -156,13 +156,13 @@ export function SiteHeader() {
                 <span className="service-nav-group-label">Industries We Scale</span>
                 <div className="mt-2 grid grid-cols-2 gap-1">
                   {industryLinks.map((ind) => (
-                    <Link
+                    <a
                       key={ind.label}
-                      to={ind.to}
+                      href={ind.to}
                       className="block rounded-md px-2.5 py-1.5 text-xs font-semibold text-foreground/80 hover:bg-primary/10 hover:text-primary transition-all"
                     >
                       {ind.label}
-                    </Link>
+                    </a>
                   ))}
                 </div>
               </div>
@@ -282,41 +282,41 @@ export function SiteHeader() {
                   <span>All 9 Services Overview</span>
                   <ArrowRight className="size-3.5 text-primary" />
                 </Link>
-                <Link
-                  to="/services/seo"
+                <a
+                  href="/services/seo"
                   onClick={() => setOpen(false)}
                   className="py-1 text-xs text-muted-foreground hover:text-primary"
                 >
                   • Search Engine Optimization (SEO)
-                </Link>
-                <Link
-                  to="/services/paid-advertising"
+                </a>
+                <a
+                  href="/services/paid-advertising"
                   onClick={() => setOpen(false)}
                   className="py-1 text-xs text-muted-foreground hover:text-primary"
                 >
                   • Performance Paid Advertising
-                </Link>
-                <Link
-                  to="/services/web-development"
+                </a>
+                <a
+                  href="/services/web-development"
                   onClick={() => setOpen(false)}
                   className="py-1 text-xs text-muted-foreground hover:text-primary"
                 >
                   • Custom Web Platforms &amp; E-Commerce
-                </Link>
-                <Link
-                  to="/services/software-development"
+                </a>
+                <a
+                  href="/services/software-development"
                   onClick={() => setOpen(false)}
                   className="py-1 text-xs text-muted-foreground hover:text-primary"
                 >
                   • Custom Software &amp; CRM Systems
-                </Link>
-                <Link
-                  to="/services/ai-automation"
+                </a>
+                <a
+                  href="/services/ai-automation"
                   onClick={() => setOpen(false)}
                   className="py-1 text-xs text-muted-foreground hover:text-primary"
                 >
                   • AI &amp; Business Automation
-                </Link>
+                </a>
               </div>
             </div>
 
@@ -514,10 +514,10 @@ export function SiteFooter() {
         <div>
           <h3 className="footer-heading">Get More Customers</h3>
           <div className="footer-links flex flex-col gap-1.5">
-            <Link to="/services/seo" className="hover:text-footer-foreground">Search Engine Optimization</Link>
-            <Link to="/services/paid-advertising" className="hover:text-footer-foreground">Performance Paid Ads</Link>
-            <Link to="/services/social-media-marketing" className="hover:text-footer-foreground">Social Media Growth</Link>
-            <Link to="/services/content-marketing" className="hover:text-footer-foreground">Content &amp; Brand Authority</Link>
+            <a href="/services/seo" className="hover:text-footer-foreground">Search Engine Optimization</a>
+            <a href="/services/paid-advertising" className="hover:text-footer-foreground">Performance Paid Ads</a>
+            <a href="/services/social-media-marketing" className="hover:text-footer-foreground">Social Media Growth</a>
+            <a href="/services/content-marketing" className="hover:text-footer-foreground">Content &amp; Brand Authority</a>
           </div>
         </div>
 
@@ -525,11 +525,11 @@ export function SiteFooter() {
         <div>
           <h3 className="footer-heading">Sales &amp; Systems</h3>
           <div className="footer-links flex flex-col gap-1.5">
-            <Link to="/services/web-development" className="hover:text-footer-foreground">Custom Web Platforms</Link>
-            <Link to="/services/email-marketing" className="hover:text-footer-foreground">Email Retention Systems</Link>
-            <Link to="/services/app-development" className="hover:text-footer-foreground">Mobile Applications</Link>
-            <Link to="/services/software-development" className="hover:text-footer-foreground">Custom Software &amp; CRM</Link>
-            <Link to="/services/ai-automation" className="hover:text-footer-foreground">AI &amp; Business Automation</Link>
+            <a href="/services/web-development" className="hover:text-footer-foreground">Custom Web Platforms</a>
+            <a href="/services/email-marketing" className="hover:text-footer-foreground">Email Retention Systems</a>
+            <a href="/services/app-development" className="hover:text-footer-foreground">Mobile Applications</a>
+            <a href="/services/software-development" className="hover:text-footer-foreground">Custom Software &amp; CRM</a>
+            <a href="/services/ai-automation" className="hover:text-footer-foreground">AI &amp; Business Automation</a>
           </div>
         </div>
 
