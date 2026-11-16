@@ -20,7 +20,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PageHero, Reveal, SiteFooter, SiteHeader } from "@/components/site";
 import { services } from "@/lib/services-data";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 
 export const Route = createFileRoute("/contact")({
   validateSearch: (search: Record<string, unknown>): { mode?: string; service?: string; challenge?: string } => {

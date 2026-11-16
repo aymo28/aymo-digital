@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { StaffShell, StaffHeading, StaffEmpty } from "@/components/portal/StaffShell";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { ProjectConnections } from "@/components/portal/ProjectConnections";
 
 export const Route = createFileRoute("/staff/projects")({

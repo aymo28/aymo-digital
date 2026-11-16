@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PortalShell } from "@/components/portal/PortalShell";
 import { usePortalRows, usePortalClient } from "@/lib/use-portal";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { useRef, useState, useEffect, useMemo } from "react";
 import {
   FolderKanban, ListChecks, ReceiptText, ArrowRight,

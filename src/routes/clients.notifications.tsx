@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PortalShell, PortalHeading } from "@/components/portal/PortalShell";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { useCallback, useEffect, useState } from "react";
 import { Bell, CheckCheck, Info, AlertTriangle, CheckCircle2, Zap, Trash2 } from "lucide-react";
 

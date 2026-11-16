@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Loader2, ArrowLeft, IdCard } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import type { DepartmentConfig } from "../types";
 import { DEPARTMENTS } from "../registry";
 

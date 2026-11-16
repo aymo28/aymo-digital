@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { StaffShell, StaffHeading } from "@/components/portal/StaffShell";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { roleLabel, STAFF_MODULES } from "@/lib/staff-roles";
 import type { StaffMember } from "@/lib/use-staff";
 import { Loader2 } from "lucide-react";

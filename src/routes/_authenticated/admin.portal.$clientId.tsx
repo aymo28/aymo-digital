@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { updateClientCredentials, deleteClientAccount, repairClientLink } from "@/lib/portal.functions";
 import {
   ArrowLeft, Loader2, Upload, UserRound, ListChecks, Send, Bell, FileText, LifeBuoy, FolderKanban,

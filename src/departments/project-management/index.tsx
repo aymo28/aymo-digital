@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { LayoutDashboard, FolderKanban, ListChecks, Users, Bug, MessagesSquare, Loader2 } from "lucide-react";
 import type { DepartmentConfig } from "../types";
 import type { StaffMember } from "@/lib/use-staff";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { StaffHeading, StaffEmpty } from "@/components/portal/StaffShell";
 import { OverviewSection, ProjectsSection, TasksSection, ChatSection, RecordsSection } from "../shared/sections";
 import { useMyProjects, updateRow } from "../shared/data";

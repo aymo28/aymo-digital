@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { Activity, Eye, Users, Target, Radio, Globe, Flame, Trophy, Loader2, Info } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin/analytics")({

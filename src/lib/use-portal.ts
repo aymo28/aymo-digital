@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { useServerFn } from "@tanstack/react-start";
 import { selfHealPortalLink } from "@/lib/portal.functions";
 

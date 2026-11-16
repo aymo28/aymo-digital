@@ -2,7 +2,7 @@ import { useState, lazy, Suspense } from "react";
 import { Loader2, Plus, Trash2, ExternalLink } from "lucide-react";
 import type { StaffMember } from "@/lib/use-staff";
 import { useStaffRows } from "@/lib/use-staff";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { ProjectConnections } from "@/components/portal/ProjectConnections";
 import { StaffHeading, StaffEmpty } from "@/components/portal/StaffShell";
 import { useMyProjects, useProjectScopedRows, insertRow, updateRow, deleteRow, type ProjectRow } from "./data";

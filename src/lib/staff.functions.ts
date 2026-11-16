@@ -25,7 +25,7 @@ export const createStaffAccount = createServerFn({ method: "POST" })
     const name = String(data.name ?? "").trim();
     if (!name) throw new Error("Team member name is required");
 
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin } = await import("@/integrations/supabase/legacy-client.server");
 
     const { data: created, error: authErr } = await supabaseAdmin.auth.admin.createUser({
       email,
@@ -73,7 +73,7 @@ export const updateStaffCredentials = createServerFn({ method: "POST" })
   .validator((input: { staffId: string; password?: string; email?: string }) => input)
   .handler(async ({ data, context }) => {
     await assertAdmin(context as never);
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin } = await import("@/integrations/supabase/legacy-client.server");
 
     const { data: staff, error: sErr } = await supabaseAdmin
       .from("staff_members")
@@ -120,7 +120,7 @@ export const deleteStaffAccount = createServerFn({ method: "POST" })
   .validator((input: { staffId: string }) => input)
   .handler(async ({ data, context }) => {
     await assertAdmin(context as never);
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin } = await import("@/integrations/supabase/legacy-client.server");
 
     const { data: staff } = await supabaseAdmin
       .from("staff_members")

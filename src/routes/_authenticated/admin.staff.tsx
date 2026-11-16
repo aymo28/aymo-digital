@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { useServerFn } from "@tanstack/react-start";
 import { createStaffAccount, updateStaffCredentials, deleteStaffAccount } from "@/lib/staff.functions";
 import { STAFF_MODULES, STAFF_ROLES, defaultModules, roleLabel, type StaffModuleKey } from "@/lib/staff-roles";

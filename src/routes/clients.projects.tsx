@@ -2,7 +2,7 @@ import { ProjectConnections } from "@/components/portal/ProjectConnections";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PortalShell, PortalHeading } from "@/components/portal/PortalShell";
 import { usePortalRows } from "@/lib/use-portal";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { useEffect, useState } from "react";
 import {
   CalendarDays, CheckCircle2, Clock, Loader2, FolderKanban,

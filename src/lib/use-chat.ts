@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const db = (table: string) => (supabase.from as any)(table);
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 
 // ---------------------------------------------------------------------------
 // Types
