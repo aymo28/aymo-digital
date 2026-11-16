@@ -174,12 +174,12 @@ export function Header() {
 
         {/* Desktop CTAs */}
         <div className="hidden items-center gap-2 xl:flex">
-          <Link
-            to="/contact" search={{ mode: "booking" }}
+          <a
+            href="/contact?mode=booking"
             className="rounded-xl border border-border px-4 py-2 text-sm font-semibold text-espresso transition hover:border-cocoa/40 hover:bg-sand hover:text-cocoa"
           >
             Book a call
-          </Link>
+          </a>
           <Link
             to="/contact"
             className="inline-flex items-center gap-1.5 rounded-xl bg-cocoa px-5 py-2 text-sm font-semibold text-white shadow-soft transition hover:bg-copper"

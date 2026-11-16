@@ -48,7 +48,8 @@ async function assertModuleOrAdmin(
   const userId = context.userId as string;
   if (!userId) throw new Error("Unauthorized");
 
-  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
   // 1. Check if admin
   const { data: adminRole } = await supabaseAdmin
@@ -121,7 +122,8 @@ export const getManagerAccounts = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertAdmin(context as never);
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     // 1. Fetch from staff_members
     const { data: staffRows } = await supabaseAdmin
@@ -214,7 +216,8 @@ export const createManagerAccount = createServerFn({ method: "POST" })
       throw new Error("Please assign at least one module permission for this manager.");
     }
 
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     let createdUserId: string | null = null;
 
@@ -323,7 +326,8 @@ export const updateManagerAccount = createServerFn({ method: "POST" })
   .validator((input: ManagerUpdateInput) => input)
   .handler(async ({ data, context }) => {
     await assertAdmin(context as never);
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: existing, error: sErr } = await supabaseAdmin
       .from("staff_members")
@@ -413,7 +417,8 @@ export const deleteManagerAccount = createServerFn({ method: "POST" })
   .validator((input: { id: string }) => input)
   .handler(async ({ data, context }) => {
     await assertAdmin(context as never);
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: existing } = await supabaseAdmin
       .from("staff_members")
@@ -444,7 +449,8 @@ export const getManagerAnalyticsData = createServerFn({ method: "GET" })
   .validator((input: { days?: number } = {}) => input)
   .handler(async ({ data, context }) => {
     await assertModuleOrAdmin(context, "analytics");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const days = data?.days ?? 7;
     const since = new Date(Date.now() - days * 86400000).toISOString();
@@ -476,7 +482,8 @@ export const getManagerBookingsData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "bookings");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: bookings, error } = await supabaseAdmin
       .from("bookings")
@@ -492,7 +499,8 @@ export const getManagerMessagesData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "messages");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: messages, error } = await supabaseAdmin
       .from("contact_messages")
@@ -508,7 +516,8 @@ export const getManagerQuotesData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "quotes");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: quotes, error } = await supabaseAdmin
       .from("quote_requests")
@@ -524,7 +533,8 @@ export const getManagerPixelsData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "pixels");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: pixels, error } = await supabaseAdmin
       .from("tracking_pixels")
@@ -539,7 +549,8 @@ export const getManagerCrmData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "crm");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: leads, error } = await supabaseAdmin
       .from("leads")
@@ -555,7 +566,8 @@ export const getManagerNewsletterData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "newsletter");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: subscribers, error } = await supabaseAdmin
       .from("newsletter_subscribers")
@@ -571,7 +583,8 @@ export const getManagerBlogData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "blog");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: posts, error } = await supabaseAdmin
       .from("blog_posts")
@@ -587,7 +600,8 @@ export const getManagerOverviewCounts = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     const { modules, isAdmin } = await assertModuleOrAdmin(context);
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const counts: Record<string, number> = {};
 
@@ -738,7 +752,8 @@ export const getManagerServicesData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "services");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: services, error } = await supabaseAdmin
       .from("services")
@@ -754,7 +769,8 @@ export const getManagerPortfolioData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "portfolio");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: items, error } = await supabaseAdmin
       .from("portfolio")
@@ -770,7 +786,8 @@ export const getManagerTestimonialsData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "testimonials");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: items, error } = await supabaseAdmin
       .from("testimonials")
@@ -786,7 +803,8 @@ export const getManagerFaqsData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertModuleOrAdmin(context, "faqs");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const supabaseAdmin = typedAdminClient as any;
 
     const { data: items, error } = await supabaseAdmin
       .from("faqs")

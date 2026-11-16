@@ -98,7 +98,7 @@ export function LiveActivity() {
                 className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/6 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/12"
               >
                 Book a discovery call
-              </Link>
+              </a>
             </div>
           </div>
 
