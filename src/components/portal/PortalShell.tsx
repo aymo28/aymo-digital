@@ -44,6 +44,7 @@ export function PortalHeading({
 export function EmptyState({
   icon: Icon,
   title,
+  label,
   description,
   action,
 }: {

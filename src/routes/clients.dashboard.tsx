@@ -804,9 +804,9 @@ function Dashboard({
                       items: [
                         {
                           name: inv.notes || "Professional Software & Digital Services",
-                          rate: Number(inv.total),
+                          price: Number(inv.total),
                           qty: 1,
-                          amount: Number(inv.total),
+                          
                         },
                       ],
                       total: Number(inv.total),

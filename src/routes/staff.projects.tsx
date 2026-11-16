@@ -27,7 +27,7 @@ function Projects({ staffId }: { staffId: string }) {
         .from("project_assignments")
         .select("projects(id, title, service, status, progress, start_date, due_date, summary)")
         .eq("staff_id", staffId);
-      setRows(((data ?? []).map((r) => (r as unknown as { projects: Project | null }).projects).filter(Boolean)) as Project[]);
+      setRows(((data ?? []).map((r: { id: string; project_id: string }) => (r as unknown as { projects: Project | null }).projects).filter(Boolean)) as Project[]);
       setLoading(false);
     })();
   }, [staffId]);

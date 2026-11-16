@@ -139,9 +139,9 @@ export const getManagerAccounts = createServerFn({ method: "GET" })
     const { data: userList } = await supabaseAdmin.auth.admin.listUsers();
     const authManagers = (userList?.users ?? []).filter(
       (u: { user_metadata?: Record<string, unknown> }) =>
-        u.user_metadata?.is_manager === true ||
-        u.user_metadata?.role === "manager" ||
-        u.user_metadata?.role_key === "smm",
+        u.user_metadata?.["is_manager"] === true ||
+        u.user_metadata?.["role"] === "manager" ||
+        u.user_metadata?.["role_key"] === "smm",
     );
 
     // 3. Auto-sync auth managers into staff_members if missing

@@ -322,7 +322,7 @@ function Billing({
       client_email: inv.client_email || clientEmail || null,
       client_phone: clientPhone || null,
       currency: inv.currency || "USD",
-      items: inv.items || undefined,
+      items: inv.items || null,
       subtotal: inv.subtotal,
       tax: inv.tax,
       total: Number(inv.total || 0),

@@ -211,7 +211,7 @@ export const repairClientLink = createServerFn({ method: "POST" })
     // 2. Look up auth user by email
     const { data: usersPage } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000, page: 1 });
     const existingAuthUser = (usersPage?.users ?? []).find(
-      (u) => u.email?.toLowerCase() === client.email.toLowerCase(),
+      (u: { email?: string; id: string }) => u.email?.toLowerCase() === client.email.toLowerCase(),
     );
 
     if (existingAuthUser) {
