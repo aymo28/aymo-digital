@@ -471,7 +471,7 @@ export function InvoicesTab({ clientId, clientName }: { clientId: string; client
                   onClick={() =>
                     setSelectedInvoice({
                       id: inv.id,
-                      number: inv.number,
+                      number: inv.number || "AM-INV",
                       client_name: clientName,
                       currency: inv.currency,
                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
