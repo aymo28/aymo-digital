@@ -475,7 +475,7 @@ export function InvoicesTab({ clientId, clientName }: { clientId: string; client
                       client_name: clientName,
                       currency: inv.currency,
                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      items: Array.isArray((inv as any).items) ? (inv as any).items : undefined,
+                      items: Array.isArray((inv as any).items) ? (inv as any).items : [],
                       subtotal: (inv as any).subtotal,
                       tax: (inv as any).tax,
                       total: Number(inv.total),
