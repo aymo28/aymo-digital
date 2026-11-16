@@ -33,7 +33,7 @@ type BlockType =
 interface Block {
   type: BlockType;
   content: string;
-  language?: string; // for code_block
+  language?: string | undefined; // for code_block
   items?: string[];  // for ul / ol
 }
 
@@ -42,7 +42,7 @@ interface Block {
 // ---------------------------------------------------------------------------
 
 function parse(md: string): Block[] {
-  const lines = md.replace(/\r\n/g, "\n").split("\n");
+  const lines = md.replace(/\r\n/g, "\n").split("\n") as string[] & Record<number, string>;
   const blocks: Block[] = [];
   let i = 0;
 

@@ -37,7 +37,7 @@ export function PortfolioPreview() {
               </p>
             </div>
             <Link
-              to="/portfolio"
+              to="/work"
               className="hidden shrink-0 items-center gap-1.5 text-sm font-bold text-[#2F8FFF] transition hover:gap-2.5 sm:inline-flex"
             >
               View all {rows.length} projects <ArrowUpRight className="h-4 w-4" />
@@ -95,7 +95,7 @@ export function PortfolioPreview() {
         <Reveal delay={200}>
           <div className="mt-10 text-center">
             <Link
-              to="/portfolio"
+            to="/work"
               className="inline-flex items-center gap-2 rounded-xl border border-[#DCEAF5] bg-white px-7 py-3 text-sm font-bold text-[#0B1726] shadow-soft transition hover:border-[#2F8FFF]/40 hover:bg-[#EAF6FF] hover:text-[#2F8FFF]"
             >
               View All Projects <ArrowUpRight className="h-4 w-4" />

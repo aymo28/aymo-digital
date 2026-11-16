@@ -86,7 +86,7 @@ function Typewriter() {
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    const word = ACCENT_WORDS[idx % ACCENT_WORDS.length];
+    const word = ACCENT_WORDS[idx % ACCENT_WORDS.length] ?? ACCENT_WORDS[0] ?? "";
 
     const delay = deleting ? 40 : 85;
 
@@ -843,7 +843,7 @@ export function HeroSlider() {
                       ========================================================== */}
 
                   <Link
-                    to="/portfolio"
+                    to="/work"
                     className="
                       inline-flex
                       items-center

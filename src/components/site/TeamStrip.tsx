@@ -83,7 +83,7 @@ export function TeamStrip() {
             return (
               <Reveal key={m.id} delay={i * 70}>
                 {m.slug
-                  ? <Link to="/team/$slug" params={{ slug: m.slug }} className="block h-full">{card}</Link>
+                  ? <Link to="/team" className="block h-full">{card}</Link>
                   : card
                 }
               </Reveal>
