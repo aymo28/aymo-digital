@@ -13,7 +13,7 @@ export const selfHealPortalLink = createServerFn({ method: "POST" })
     const ctx = context as { userId: string; supabase: { auth: { getUser: () => Promise<{ data: { user: { email?: string } | null } }> } } };
     const userId = ctx.userId;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
     const supabaseAdmin = typedAdminClient as any;
 
     // Get the auth user's email
@@ -68,7 +68,7 @@ export const createClientAccount = createServerFn({ method: "POST" })
     if (!name) throw new Error("Client name is required");
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
     const supabaseAdmin = typedAdminClient as any;
 
     const { data: created, error: authErr } = await supabaseAdmin.auth.admin.createUser({
@@ -114,7 +114,7 @@ export const updateClientCredentials = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertAdmin(context as never);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
     const supabaseAdmin = typedAdminClient as any;
 
     const { data: client, error: cErr } = await supabaseAdmin
@@ -163,7 +163,7 @@ export const deleteClientAccount = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertAdmin(context as never);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
     const supabaseAdmin = typedAdminClient as any;
 
     const { data: client } = await supabaseAdmin
@@ -189,7 +189,7 @@ export const repairClientLink = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertAdmin(context as never);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin: typedAdminClient } = await import("@/integrations/supabase/legacy-client.server");
     const supabaseAdmin = typedAdminClient as any;
 
     // 1. Get the portal_clients row
