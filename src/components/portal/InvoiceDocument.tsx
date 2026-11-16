@@ -7,6 +7,8 @@ export interface InvoiceItem {
   qty?: number;
   hours?: number;
   price: number;
+  rate?: number;
+  amount?: number;
 }
 
 export interface InvoiceData {

@@ -259,7 +259,14 @@ function Dashboard({
   // Selected tasks for "Today Task" 3-card carousel/row
   const displayTasks = useMemo<Array<{ id: string; title: string; priority: string; progress: number; ratio: string; color: string }>>(() => {
     if (tasks.length >= 3) {
-      return tasks.slice(0, 3);
+      return tasks.slice(0, 3).map((t, idx) => ({
+        id: t.id,
+        title: t.title,
+        priority: t.priority === "high" ? "High Priority" : "Active Sprint",
+        progress: t.progress || 50,
+        ratio: `${Math.round((t.progress || 50) / 5)}/20`,
+        color: idx % 2 === 0 ? "blue" : "pink",
+      }));
     }
     const placeholders = [
       { id: "t1", title: "Research User", priority: "High Priority", progress: 50, ratio: "10/20", color: "blue" },
