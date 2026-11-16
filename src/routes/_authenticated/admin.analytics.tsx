@@ -57,11 +57,11 @@ function AnalyticsPage() {
     if (ev.error) setErr(ev.error.message);
     setEvents((ev.data as Ev[]) ?? []);
     const all: Lead[] = [
-      ...(ld.data ?? []).map((r) => ({ kind: "CRM lead", name: r.name, email: r.email, phone: r.phone, service: r.service, source: r.source || "manual", created_at: r.created_at })),
-      ...(qr.data ?? []).map((r) => ({ kind: "Quote request", name: r.name, email: r.email, phone: r.phone, service: r.service, source: "quote form", created_at: r.created_at })),
-      ...(bk.data ?? []).map((r) => ({ kind: "Booking", name: r.name, email: r.email, phone: r.phone, service: r.service, source: "booking form", created_at: r.created_at })),
-      ...(cm.data ?? []).map((r) => ({ kind: "Contact message", name: r.name, email: r.email, phone: null, service: r.subject, source: "contact form", created_at: r.created_at })),
-      ...(nl.data ?? []).map((r) => ({ kind: "Newsletter", name: "—", email: r.email, phone: null, service: null, source: r.source || "newsletter", created_at: r.created_at })),
+      ...(ld.data ?? []).map((r: { name: string; email: string; phone: string | null; service: string | null; source: string; created_at: string }) => ({ kind: "CRM lead", name: r.name, email: r.email, phone: r.phone, service: r.service, source: r.source || "manual", created_at: r.created_at })),
+      ...(qr.data ?? []).map((r: { name: string; email: string; phone: string | null; service: string | null; created_at: string }) => ({ kind: "Quote request", name: r.name, email: r.email, phone: r.phone, service: r.service, source: "quote form", created_at: r.created_at })),
+      ...(bk.data ?? []).map((r: { name: string; email: string; phone: string | null; service: string | null; created_at: string }) => ({ kind: "Booking", name: r.name, email: r.email, phone: r.phone, service: r.service, source: "booking form", created_at: r.created_at })),
+      ...(cm.data ?? []).map((r: { name: string; email: string; subject: string | null; created_at: string }) => ({ kind: "Contact message", name: r.name, email: r.email, phone: null, service: r.subject, source: "contact form", created_at: r.created_at })),
+      ...(nl.data ?? []).map((r: { email: string; source: string; created_at: string }) => ({ kind: "Newsletter", name: "—", email: r.email, phone: null, service: null, source: r.source || "newsletter", created_at: r.created_at })),
     ].sort((a, b) => b.created_at.localeCompare(a.created_at));
     setLeads(all);
     setLoading(false);

@@ -85,17 +85,17 @@ function AdminInvoicesPage() {
                     id: String(r["id"]),
                     number: String(r["number"] || "AM-INV"),
                     client_name: String(r["client_name"] || "Client"),
-                    client_email: r["client_email"] ? String(r["client_email"]) : undefined,
+                    client_email: r["client_email"] ? String(r["client_email"]) : null,
                     currency: String(r["currency"] || "USD"),
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    items: Array.isArray(r["items"]) ? (r["items"] as any) : undefined,
+                    items: Array.isArray(r["items"]) ? (r["items"] as any) : null,
                     subtotal: r["subtotal"] ? Number(r["subtotal"]) : undefined,
                     tax: r["tax"] ? Number(r["tax"]) : undefined,
                     total: Number(r["total"] || 0),
                     amount_paid: Number(r["amount_paid"] || 0),
                     status: String(r["status"] || "draft"),
-                    due_date: r["due_date"] ? String(r["due_date"]) : undefined,
-                    notes: r["notes"] ? String(r["notes"]) : undefined,
+                    due_date: r["due_date"] ? String(r["due_date"]) : null,
+                    notes: r["notes"] ? String(r["notes"]) : null,
                     created_at: r["created_at"] ? String(r["created_at"]) : undefined,
                   });
                 }}

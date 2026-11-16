@@ -318,9 +318,9 @@ function Billing({
       id: inv.id,
       number: inv.number,
       client_name: inv.client_name || clientName,
-      client_company: clientCompany || undefined,
-      client_email: inv.client_email || clientEmail || undefined,
-      client_phone: clientPhone || undefined,
+      client_company: clientCompany || null,
+      client_email: inv.client_email || clientEmail || null,
+      client_phone: clientPhone || null,
       currency: inv.currency || "USD",
       items: inv.items || undefined,
       subtotal: inv.subtotal,
@@ -373,8 +373,8 @@ function Billing({
       {showRequestForm && (
         <BillingRequestForm
           clientId={clientId}
-          initialTitle={requestPrefill.title}
-          initialAmount={requestPrefill.amount}
+          {...(requestPrefill.title ? { initialTitle: requestPrefill.title } : {})}
+          {...(requestPrefill.amount ? { initialAmount: requestPrefill.amount } : {})}
           onDone={() => {
             setShowRequestForm(false);
             reloadRequests();

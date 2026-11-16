@@ -257,7 +257,7 @@ function Dashboard({
   const backlogPct = projects.length > 0 ? Math.round((backlogProjects.length / projects.length) * 100) : 15;
 
   // Selected tasks for "Today Task" 3-card carousel/row
-  const displayTasks = useMemo(() => {
+  const displayTasks = useMemo<Array<{ id: string; title: string; priority: string; progress: number; ratio: string; color: string }>>(() => {
     if (tasks.length >= 3) {
       return tasks.slice(0, 3);
     }
@@ -682,7 +682,7 @@ function Dashboard({
                         downloadIcsFile(p.title, {
                           id: p.id,
                           title: p.title,
-                          description: p.summary || undefined,
+                          ...(p.summary ? { description: p.summary } : {}),
                           dueDate: p.due_date,
                         })
                       }
@@ -796,7 +796,7 @@ function Dashboard({
                       },
                       items: [
                         {
-                          description: inv.notes || "Professional Software & Digital Services",
+                          name: inv.notes || "Professional Software & Digital Services",
                           rate: Number(inv.total),
                           qty: 1,
                           amount: Number(inv.total),
@@ -823,6 +823,7 @@ function Dashboard({
         <ProjectRequestModal
           clientId={client.id}
           clientName={client.name}
+          isOpen={showProjectModal}
           onClose={() => setShowProjectModal(false)}
           onCreated={() => {
             setShowProjectModal(false);
@@ -834,7 +835,7 @@ function Dashboard({
 
       {selectedInvoice && (
         <InvoiceModal
-          data={selectedInvoice}
+          invoice={selectedInvoice}
           onClose={() => setSelectedInvoice(null)}
         />
       )}

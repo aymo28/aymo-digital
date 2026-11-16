@@ -12,4 +12,4 @@ type LegacyClient = Omit<typeof typedSupabase, "from" | "rpc"> & {
   rpc: (fn: string, args?: Record<string, unknown>) => Promise<any>;
 };
 
-export const supabase = typedSupabase as LegacyClient;
+export const supabase = typedSupabase as unknown as LegacyClient;

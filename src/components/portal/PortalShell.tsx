@@ -48,7 +48,8 @@ export function EmptyState({
   action,
 }: {
   icon?: React.ElementType;
-  title: string;
+  title?: string;
+  label?: string;
   description?: string;
   action?: ReactNode;
 }) {
@@ -59,7 +60,7 @@ export function EmptyState({
           <Icon className="h-6 w-6" />
         </div>
       )}
-      <h3 className="font-heading text-base font-bold text-[#24262B]">{title}</h3>
+      <h3 className="font-heading text-base font-bold text-[#24262B]">{title ?? label}</h3>
       {description && <p className="mt-1.5 max-w-sm text-xs text-[#85858D]">{description}</p>}
       {action && <div className="mt-4">{action}</div>}
     </div>

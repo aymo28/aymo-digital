@@ -3,6 +3,7 @@ import { CheckCircle2, Clock, AlertCircle } from "lucide-react";
 
 export interface InvoiceItem {
   name: string;
+  description?: string;
   qty?: number;
   hours?: number;
   price: number;
