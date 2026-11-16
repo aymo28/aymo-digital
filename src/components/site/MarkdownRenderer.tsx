@@ -42,12 +42,13 @@ interface Block {
 // ---------------------------------------------------------------------------
 
 function parse(md: string): Block[] {
-  const lines = md.replace(/\r\n/g, "\n").split("\n") as string[] & Record<number, string>;
+  const lines = md.replace(/\r\n/g, "\n").split("\n");
+  const lineAt = (index: number) => lines[index] ?? "";
   const blocks: Block[] = [];
   let i = 0;
 
   while (i < lines.length) {
-    const line = lines[i];
+    const line = lineAt(i);
 
     // Blank line — skip
     if (line.trim() === "") { i++; continue; }
@@ -71,8 +72,8 @@ function parse(md: string): Block[] {
     // Blockquote
     if (line.startsWith("> ")) {
       const quoteLines: string[] = [];
-      while (i < lines.length && lines[i].startsWith("> ")) {
-        quoteLines.push(lines[i].slice(2));
+      while (i < lines.length && lineAt(i).startsWith("> ")) {
+        quoteLines.push(lineAt(i).slice(2));
         i++;
       }
       blocks.push({ type: "blockquote", content: quoteLines.join("\n") });
@@ -84,20 +85,20 @@ function parse(md: string): Block[] {
       const lang = line.slice(3).trim();
       const codeLines: string[] = [];
       i++;
-      while (i < lines.length && !lines[i].startsWith("```")) {
-        codeLines.push(lines[i]);
+      while (i < lines.length && !lineAt(i).startsWith("```")) {
+        codeLines.push(lineAt(i));
         i++;
       }
       i++; // consume closing ```
-      blocks.push({ type: "code_block", content: codeLines.join("\n"), language: lang || undefined });
+      blocks.push({ type: "code_block", content: codeLines.join("\n"), ...(lang ? { language: lang } : {}) });
       continue;
     }
 
     // Unordered list
     if (/^[-*+]\s/.test(line)) {
       const items: string[] = [];
-      while (i < lines.length && /^[-*+]\s/.test(lines[i])) {
-        items.push(lines[i].replace(/^[-*+]\s/, "").trim());
+      while (i < lines.length && /^[-*+]\s/.test(lineAt(i))) {
+        items.push(lineAt(i).replace(/^[-*+]\s/, "").trim());
         i++;
       }
       blocks.push({ type: "ul", content: "", items });
@@ -107,8 +108,8 @@ function parse(md: string): Block[] {
     // Ordered list
     if (/^\d+\.\s/.test(line)) {
       const items: string[] = [];
-      while (i < lines.length && /^\d+\.\s/.test(lines[i])) {
-        items.push(lines[i].replace(/^\d+\.\s/, "").trim());
+      while (i < lines.length && /^\d+\.\s/.test(lineAt(i))) {
+        items.push(lineAt(i).replace(/^\d+\.\s/, "").trim());
         i++;
       }
       blocks.push({ type: "ol", content: "", items });
@@ -119,15 +120,15 @@ function parse(md: string): Block[] {
     const paraLines: string[] = [];
     while (
       i < lines.length &&
-      lines[i].trim() !== "" &&
-      !/^(#{1,4})\s/.test(lines[i]) &&
-      !lines[i].startsWith("```") &&
-      !lines[i].startsWith("> ") &&
-      !/^[-*+]\s/.test(lines[i]) &&
-      !/^\d+\.\s/.test(lines[i]) &&
-      !/^(\*{3,}|-{3,}|_{3,})\s*$/.test(lines[i].trim())
+      lineAt(i).trim() !== "" &&
+      !/^(#{1,4})\s/.test(lineAt(i)) &&
+      !lineAt(i).startsWith("```") &&
+      !lineAt(i).startsWith("> ") &&
+      !/^[-*+]\s/.test(lineAt(i)) &&
+      !/^\d+\.\s/.test(lineAt(i)) &&
+      !/^(\*{3,}|-{3,}|_{3,})\s*$/.test(lineAt(i).trim())
     ) {
-      paraLines.push(lines[i]);
+      paraLines.push(lineAt(i));
       i++;
     }
     if (paraLines.length > 0) {
