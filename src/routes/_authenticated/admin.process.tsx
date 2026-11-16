@@ -18,7 +18,7 @@ export const Route = createFileRoute("/_authenticated/admin/process")({
         { key: "step_number", label: "#" },
         { key: "title", label: "Title" },
         { key: "sort_order", label: "Order" },
-        { key: "published", label: "Live", render: (r) => (r.published ? "✓" : "—") },
+        { key: "published", label: "Live", render: (r) => (r["published"] ? "✓" : "—") },
       ]}
     />
   ),

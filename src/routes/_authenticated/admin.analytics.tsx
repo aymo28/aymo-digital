@@ -85,12 +85,12 @@ function AnalyticsPage() {
   const visitors = new Set(views.map((e) => e.session_id)).size;
   const topPages = count(views, (e) => e.path).slice(0, 10);
   const topEvents = count(events, (e) => e.event).slice(0, 10);
-  const sources = count(views, (e) => String(e.meta?.source ?? "direct"));
-  const devices = count(views, (e) => (e.meta?.device as string) ?? null);
+  const sources = count(views, (e) => String(e.meta?.["source"] ?? "direct"));
+  const devices = count(views, (e) => (e.meta?.["device"] as string) ?? null);
   const leadSources = count(leads, (l) => l.source);
   const serviceDemand = count(leads, (l) => l.service?.trim() || null).slice(0, 8);
   const serviceViews = count(views.filter((e) => e.path.startsWith("/services/")), (e) => e.path.replace("/services/", "")).slice(0, 8);
-  const fbClicks = views.filter((e) => e.meta?.fbclid).length;
+  const fbClicks = views.filter((e) => e.meta?.["fbclid"]).length;
 
   return (
     <div>
@@ -128,7 +128,7 @@ function AnalyticsPage() {
             {liveVisitors.slice(0, 12).map((v) => (
               <div key={v.session_id} className="flex items-center justify-between rounded-xl bg-white px-3 py-2 text-xs">
                 <span className="truncate font-semibold text-espresso">{v.path}</span>
-                <span className="ml-2 shrink-0 rounded-full bg-sand px-2 py-0.5 text-[10px] font-bold uppercase text-espresso/70">{String(v.meta?.source ?? "direct")}</span>
+                <span className="ml-2 shrink-0 rounded-full bg-sand px-2 py-0.5 text-[10px] font-bold uppercase text-espresso/70">{String(v.meta?.["source"] ?? "direct")}</span>
               </div>
             ))}
           </div>

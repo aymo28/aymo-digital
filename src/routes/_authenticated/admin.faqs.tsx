@@ -18,7 +18,7 @@ export const Route = createFileRoute("/_authenticated/admin/faqs")({
         { key: "question", label: "Question" },
         { key: "category", label: "Category" },
         { key: "sort_order", label: "Order" },
-        { key: "published", label: "Live", render: (r) => (r.published ? "✓" : "—") },
+        { key: "published", label: "Live", render: (r) => (r["published"] ? "✓" : "—") },
       ]}
     />
   ),

@@ -168,7 +168,7 @@ function Support({ clientId, clientName }: { clientId: string; clientName: strin
       ) : (
         <div className="space-y-3">
           {rows.map((t) => {
-            const statusData = STATUS_INFO[t.status] ?? STATUS_INFO.open;
+            const statusData = STATUS_INFO[t.status] ?? STATUS_INFO["open"];
             const StatusIcon = statusData.icon;
             const ticketReplies = replies.filter((r) => r.ticket_id === t.id);
             const isExpanded = expanded === t.id;

@@ -12,7 +12,7 @@ export const Route = createFileRoute("/_authenticated/admin/bookings")({
         { name: "is_read", label: "Mark as read", type: "boolean" },
       ]}
       listColumns={[
-        { key: "created_at", label: "Received", render: (r) => new Date(String(r.created_at)).toLocaleString() },
+        { key: "created_at", label: "Received", render: (r) => new Date(String(r["created_at"])).toLocaleString() },
         { key: "name", label: "Name" },
         { key: "email", label: "Email" },
         { key: "phone", label: "Phone" },
@@ -21,7 +21,7 @@ export const Route = createFileRoute("/_authenticated/admin/bookings")({
         { key: "meeting_type", label: "Type" },
         { key: "service", label: "Service" },
         { key: "status", label: "Status" },
-        { key: "is_read", label: "Read", render: (r) => (r.is_read ? "✓" : "•") },
+        { key: "is_read", label: "Read", render: (r) => (r["is_read"] ? "✓" : "•") },
       ]}
     />
   ),

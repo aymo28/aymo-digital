@@ -17,7 +17,7 @@ export const Route = createFileRoute("/_authenticated/admin/stats")({
         { key: "value", label: "Value" },
         { key: "label", label: "Label" },
         { key: "sort_order", label: "Order" },
-        { key: "published", label: "Live", render: (r) => (r.published ? "✓" : "—") },
+        { key: "published", label: "Live", render: (r) => (r["published"] ? "✓" : "—") },
       ]}
     />
   ),

@@ -20,7 +20,7 @@ export const Route = createFileRoute("/_authenticated/admin/testimonials")({
         { key: "name", label: "Name" },
         { key: "role_title", label: "Role" },
         { key: "stars", label: "★" },
-        { key: "published", label: "Live", render: (r) => (r.published ? "✓" : "—") },
+        { key: "published", label: "Live", render: (r) => (r["published"] ? "✓" : "—") },
       ]}
     />
   ),

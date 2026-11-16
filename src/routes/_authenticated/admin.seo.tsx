@@ -30,7 +30,7 @@ export const Route = createFileRoute("/_authenticated/admin/seo")({
         { key: "label", label: "Page" },
         { key: "path", label: "Path" },
         { key: "meta_title", label: "Meta title" },
-        { key: "noindex", label: "Hidden", render: (r) => (r.noindex ? "hidden" : "") },
+        { key: "noindex", label: "Hidden", render: (r) => (r["noindex"] ? "hidden" : "") },
       ]}
     />
   ),

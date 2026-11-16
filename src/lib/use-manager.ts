@@ -69,18 +69,18 @@ export function useManager() {
     const meta = u.user_metadata || {};
 
     if (staff) {
-      const accessLevel = (meta.access_level as "view" | "manage") || "view";
+      const accessLevel = (meta["access_level"] as "view" | "manage") || "view";
       const modules = Array.isArray(staff.modules) && staff.modules.length > 0 
         ? staff.modules 
-        : (Array.isArray(meta.modules) ? meta.modules : ["analytics", "bookings", "messages"]);
+        : (Array.isArray(meta["modules"]) ? meta["modules"] : ["analytics", "bookings", "messages"]);
 
       setManager({
         id: staff.id,
         userId: u.id,
-        name: staff.name || meta.full_name || u.email?.split("@")[0] || "Manager",
+        name: staff.name || meta["full_name"] || u.email?.split("@")[0] || "Manager",
         email: staff.email || u.email || "",
-        roleTitle: staff.job_title || meta.role_title || "Manager",
-        roleKey: staff.role || meta.role_key || "manager",
+        roleTitle: staff.job_title || meta["role_title"] || "Manager",
+        roleKey: staff.role || meta["role_key"] || "manager",
         department: staff.department || "Operations",
         modules,
         accessLevel,
@@ -92,7 +92,7 @@ export function useManager() {
       setManager({
         id: "admin-root",
         userId: u.id,
-        name: meta.full_name || u.email?.split("@")[0] || "Administrator",
+        name: meta["full_name"] || u.email?.split("@")[0] || "Administrator",
         email: u.email || "",
         roleTitle: "Super Administrator (Master Access)",
         roleKey: "admin",
@@ -115,18 +115,18 @@ export function useManager() {
         active: true,
         isAdmin: true,
       });
-    } else if (meta.is_manager) {
+    } else if (meta["is_manager"]) {
       // Fallback from user_metadata
       setManager({
         id: "meta-profile",
         userId: u.id,
-        name: meta.full_name || u.email?.split("@")[0] || "Manager",
+        name: meta["full_name"] || u.email?.split("@")[0] || "Manager",
         email: u.email || "",
-        roleTitle: meta.role_title || "Portal Manager",
-        roleKey: meta.role_key || "manager",
+        roleTitle: meta["role_title"] || "Portal Manager",
+        roleKey: meta["role_key"] || "manager",
         department: "Operations",
-        modules: Array.isArray(meta.modules) ? meta.modules : ["analytics", "bookings", "messages"],
-        accessLevel: (meta.access_level as "view" | "manage") || "view",
+        modules: Array.isArray(meta["modules"]) ? meta["modules"] : ["analytics", "bookings", "messages"],
+        accessLevel: (meta["access_level"] as "view" | "manage") || "view",
         active: true,
         isAdmin: false,
       });

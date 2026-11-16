@@ -148,7 +148,7 @@ function Notifications({ clientId }: { clientId: string }) {
       ) : (
         <div className="space-y-2">
           {visible.map((n) => {
-            const meta = KIND_META[n.kind] ?? KIND_META.info;
+            const meta = KIND_META[n.kind] ?? KIND_META["info"];
             const Icon = meta.icon;
             return (
               <div

@@ -60,7 +60,7 @@ export const Route = createFileRoute("/api/send-email")({
           }
 
           // ── Resolve API key ──────────────────────────────────────────────
-          const apiKey = process.env.RESEND_API_KEY ?? "";
+          const apiKey = process.env["RESEND_API_KEY"] ?? "";
           if (!apiKey) {
             console.warn("[send-email] RESEND_API_KEY not set — email skipped");
             return Response.json(
@@ -71,7 +71,7 @@ export const Route = createFileRoute("/api/send-email")({
 
           // ── Build from address ───────────────────────────────────────────
           const from =
-            process.env.EMAIL_FROM ?? "AM Enterprises <no-reply@amenterprise.tech>";
+            process.env["EMAIL_FROM"] ?? "AM Enterprises <no-reply@amenterprise.tech>";
 
           // ── Build recipients ─────────────────────────────────────────────
           const recipients = Array.isArray(to) ? to : [to];

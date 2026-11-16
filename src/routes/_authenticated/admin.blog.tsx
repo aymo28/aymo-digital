@@ -32,7 +32,7 @@ export const Route = createFileRoute("/_authenticated/admin/blog")({
         { key: "slug", label: "Slug" },
         { key: "author", label: "Author" },
         { key: "sort_order", label: "Order" },
-        { key: "published", label: "Live", render: (r) => (r.published ? "✓" : "—") },
+        { key: "published", label: "Live", render: (r) => (r["published"] ? "✓" : "—") },
       ]}
     />
   ),
