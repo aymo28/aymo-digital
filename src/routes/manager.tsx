@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { useManager, type ManagerProfile } from "@/lib/use-manager";
 import { MANAGER_MODULES, getModuleByKey, type ManagerModuleDef } from "@/lib/manager-rbac";
 import {

@@ -3,7 +3,7 @@ import { ArrowRight, Check, ChevronDown, Loader2, Menu, MessageCircle, Send, X }
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import logoAsset from "@/assets/aymo-logo.png.asset.json";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 
 export function Reveal({ children, className = "", delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null);

@@ -1,6 +1,6 @@
 import { type ReactNode, useEffect, useState, useMemo } from "react";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import { usePortalClient } from "@/lib/use-portal";
 import {
   LayoutDashboard, FolderKanban, ListChecks, ReceiptText, MessagesSquare, Bell,

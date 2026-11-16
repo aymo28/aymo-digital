@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/legacy-client";
 import {
   X, Sparkles, Code2, Smartphone, Bot, Palette, Rocket, Cloud,
   CheckCircle2, ArrowRight, ArrowLeft, Loader2, DollarSign, Calendar, FileText
