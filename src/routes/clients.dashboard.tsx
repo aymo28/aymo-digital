@@ -781,26 +781,12 @@ function Dashboard({
                   onClick={() =>
                     setSelectedInvoice({
                       id: inv.id,
-                      invoiceNumber: inv.number,
-                      date: new Date(inv.created_at).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      }),
-                      dueDate: inv.due_date
-                        ? new Date(inv.due_date).toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                          })
-                        : "Due on Receipt",
-                      status: inv.status as any,
+                      number: inv.number,
+                      client_name: client.name,
+                      client_company: client.company,
+                      client_email: client.email,
                       currency: inv.currency || "USD",
-                      client: {
-                        name: client.name,
-                        company: client.company || undefined,
-                        email: client.email,
-                      },
+                      status: inv.status as any,
                       items: [
                         {
                           name: inv.notes || "Professional Software & Digital Services",
@@ -810,8 +796,10 @@ function Dashboard({
                         },
                       ],
                       total: Number(inv.total),
-                      amountPaid: Number(inv.amount_paid || 0),
-                      balanceDue: Math.max(0, Number(inv.total) - Number(inv.amount_paid || 0)),
+                      amount_paid: Number(inv.amount_paid || 0),
+                      due_date: inv.due_date,
+                      created_at: inv.created_at,
+                      notes: inv.notes,
                     })
                   }
                   className="inline-flex items-center gap-1.5 rounded-xl border border-[#ECEBE8] bg-[#FAFAF8] hover:bg-[#E5F3FA] px-3 py-1.5 text-xs font-medium text-[#24262B] transition-colors"
