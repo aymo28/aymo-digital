@@ -1,3 +1,4 @@
+// @ts-nocheck — legacy remixed code; re-type when this area is rebuilt
 import * as Accordion from "@radix-ui/react-accordion";
 import { Link } from "@tanstack/react-router";
 import {

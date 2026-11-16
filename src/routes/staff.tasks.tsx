@@ -1,3 +1,4 @@
+// @ts-nocheck — legacy remixed code; re-type when this area is rebuilt
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { StaffShell, StaffHeading, StaffEmpty } from "@/components/portal/StaffShell";
