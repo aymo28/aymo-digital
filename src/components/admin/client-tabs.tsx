@@ -269,7 +269,7 @@ export function InvoicesTab({ clientId, clientName }: { clientId: string; client
   const load = useCallback(async () => {
     setLoading(true);
     const [{ data: inv }, { data: tx }] = await Promise.all([
-      legacyTable("invoices").select("*").eq("client_id", clientId).order("created_at", { ascending: false),
+      legacyTable("invoices").select("*").eq("client_id", clientId).order("created_at", { ascending: false }),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (supabase.from as any)("payment_transactions").select("*").eq("client_id", clientId).order("created_at", { ascending: false }),
     ]);
