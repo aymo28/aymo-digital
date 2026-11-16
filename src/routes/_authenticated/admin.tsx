@@ -108,7 +108,7 @@ function AdminLayout() {
               const active = n.exact ? location.pathname === n.to : location.pathname.startsWith(n.to);
               return (
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                <Link key={n.to} to={n.to as any} className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition ${active ? "bg-espresso text-white" : "text-espresso/80 hover:bg-sand"}`}>
+                <Link key={n.to} to={n.to as any} className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition ${active ? "bg-purple-600 text-white shadow-md shadow-purple-500/20" : "text-slate-700 hover:bg-purple-100 hover:text-purple-900 font-semibold"}`}>
                   <n.icon className="h-4 w-4 shrink-0" />
                   <span className="flex-1 truncate">{n.label}</span>
                   {n.badge === "live" && (
@@ -120,7 +120,7 @@ function AdminLayout() {
               );
             })}
           </nav>
-          <button onClick={signOut} className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-espresso/15 px-3 py-2.5 text-sm font-bold text-espresso hover:bg-sand">
+          <button onClick={signOut} className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-purple-300 bg-white px-3 py-2.5 text-sm font-bold text-purple-800 hover:bg-purple-100 shadow-xs">
             <LogOut className="h-4 w-4" /> Sign out
           </button>
         </aside>

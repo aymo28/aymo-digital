@@ -42,11 +42,21 @@
   --color-insight-one: var(--insight-one);
   --color-insight-two: var(--insight-two);
   --color-insight-three: var(--insight-three);
+  --color-espresso: var(--espresso);
+  --color-cocoa: var(--cocoa);
+  --color-copper: var(--copper);
+  --color-sand: var(--sand);
+  --color-cream: var(--cream);
   --shadow-soft: 0 18px 50px -28px color-mix(in oklab, var(--foreground) 22%, transparent);
 }
 
 :root {
   --radius: 0.6rem;
+  --espresso: #1e1b4b;
+  --cocoa: #6b21a8;
+  --copper: #9333ea;
+  --sand: #f5f3ff;
+  --cream: #faf5ff;
   --background: oklch(0.988 0.004 250);
   --foreground: oklch(0.22 0.028 258);
   --card: oklch(1 0 0);

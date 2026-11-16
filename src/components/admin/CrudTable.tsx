@@ -60,12 +60,12 @@ function ImageUploadField({ value, onChange, table }: { value: string; onChange:
         <div className="flex-1 min-w-0 space-y-2">
           <div className="flex flex-wrap gap-2">
             <button type="button" onClick={() => inputRef.current?.click()} disabled={uploading}
-              className="inline-flex items-center gap-1.5 rounded-full bg-espresso px-4 py-2 text-xs font-bold text-white hover:bg-cocoa disabled:opacity-60">
+              className="inline-flex items-center gap-1.5 rounded-full bg-purple-600 px-4 py-2 text-xs font-bold text-white hover:bg-purple-700 shadow-sm transition-colors disabled:opacity-60">
               {uploading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Upload className="h-3.5 w-3.5" />}
               {uploading ? "Uploading…" : "Upload from PC"}
             </button>
             {value && (
-              <button type="button" onClick={() => onChange("")} className="rounded-full border border-espresso/15 px-3 py-2 text-xs font-bold text-espresso hover:bg-sand">Clear</button>
+              <button type="button" onClick={() => onChange("")} className="rounded-full border border-purple-300 bg-white px-3 py-2 text-xs font-bold text-purple-900 hover:bg-purple-50 transition-colors">Clear</button>
             )}
           </div>
           <input value={value} onChange={(e) => onChange(e.target.value)} placeholder="or paste image URL"
@@ -241,7 +241,7 @@ export function CrudTable({ table, title, fields, listColumns, orderBy, defaults
           <p className="text-sm text-foreground/60">{rows.length} item{rows.length === 1 ? "" : "s"}</p>
         </div>
         {!readOnly && (
-          <button onClick={startCreate} className="inline-flex items-center gap-2 rounded-full bg-espresso px-4 py-2.5 text-sm font-bold text-white hover:bg-cocoa">
+          <button onClick={startCreate} className="inline-flex items-center gap-2 rounded-full bg-purple-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-purple-700 shadow-sm transition-colors">
             <Plus className="h-4 w-4" /> New
           </button>
         )}
@@ -257,7 +257,7 @@ export function CrudTable({ table, title, fields, listColumns, orderBy, defaults
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="bg-sand/60 text-left text-xs font-bold uppercase tracking-wider text-espresso/70">
+              <thead className="bg-purple-50/90 text-left text-xs font-bold uppercase tracking-wider text-purple-950 border-b border-purple-200">
                 <tr>
                   {listColumns.map((c) => (<th key={c.key} className="px-4 py-3">{c.label}</th>))}
                   <th className="px-4 py-3 text-right">Actions</th>
@@ -265,7 +265,7 @@ export function CrudTable({ table, title, fields, listColumns, orderBy, defaults
               </thead>
               <tbody className="divide-y divide-espresso/6">
                 {rows.map((r) => (
-                  <tr key={String(r.id)} className="hover:bg-sand/30">
+                  <tr key={String(r.id)} className="hover:bg-purple-50/50 transition-colors">
                     {listColumns.map((c) => (
                       <td key={c.key} className="px-4 py-3 align-top text-espresso">
                         {c.render ? c.render(r) : String(r[c.key] ?? "")}
@@ -273,7 +273,7 @@ export function CrudTable({ table, title, fields, listColumns, orderBy, defaults
                     ))}
                     <td className="px-4 py-3 text-right">
                       <div className="inline-flex gap-1">
-                        <button onClick={() => setEditing(r)} className="rounded-lg p-2 text-espresso hover:bg-sand"><Pencil className="h-3.5 w-3.5" /></button>
+                        <button onClick={() => setEditing(r)} className="rounded-lg p-2 text-purple-700 hover:bg-purple-100 transition-colors"><Pencil className="h-3.5 w-3.5" /></button>
                         <button onClick={() => remove(String(r.id))} className="rounded-lg p-2 text-red-600 hover:bg-red-50"><Trash2 className="h-3.5 w-3.5" /></button>
                       </div>
                     </td>
@@ -313,8 +313,8 @@ export function CrudTable({ table, title, fields, listColumns, orderBy, defaults
               ))}
             </div>
             <div className="mt-6 flex justify-end gap-2">
-              <button onClick={() => setEditing(null)} disabled={saving} className="rounded-full border border-espresso/15 px-5 py-2.5 text-sm font-bold text-espresso">Cancel</button>
-              <button onClick={save} disabled={saving} className="inline-flex items-center gap-2 rounded-full bg-espresso px-5 py-2.5 text-sm font-bold text-white hover:bg-cocoa disabled:opacity-60">
+              <button onClick={() => setEditing(null)} disabled={saving} className="rounded-full border border-purple-300 bg-white px-5 py-2.5 text-sm font-bold text-purple-900 hover:bg-purple-50 transition-colors shadow-xs">Cancel</button>
+              <button onClick={save} disabled={saving} className="inline-flex items-center gap-2 rounded-full bg-purple-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-purple-700 shadow-sm transition-colors disabled:opacity-60">
                 {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />} Save
               </button>
             </div>
