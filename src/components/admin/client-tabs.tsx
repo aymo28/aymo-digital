@@ -481,9 +481,9 @@ export function InvoicesTab({ clientId, clientName }: { clientId: string; client
                       total: Number(inv.total),
                       amount_paid: Number(inv.amount_paid),
                       status: inv.status,
-                      due_date: inv.due_date,
-                      created_at: inv.created_at,
-                      notes: inv.notes,
+                      due_date: inv.due_date ?? null,
+                      created_at: inv.created_at ?? undefined,
+                      notes: inv.notes ?? null,
                     })
                   }
                   className="inline-flex items-center gap-1 rounded-full border border-primary/40 bg-primary/10 px-3 py-1.5 text-xs font-bold text-primary hover:bg-primary hover:text-white transition-all shadow-xs"
