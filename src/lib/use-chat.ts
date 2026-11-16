@@ -459,7 +459,7 @@ export async function openDirectConversation(me: Me, other: DirectoryPerson): Pr
     .eq("user_id", other.user_id);
 
   const existing = (shared ?? []).find(
-    (r) =>
+    (r: { conversation_id: string; conversations: { kind: string } | null }) =>
       (r as unknown as { conversations: { kind: string } | null }).conversations?.kind === "direct"
   );
   if (existing) return (existing as { conversation_id: string }).conversation_id;

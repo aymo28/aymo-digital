@@ -142,7 +142,7 @@ export function RecordsSection({
 
   return (
     <>
-      <StaffHeading title={title} subtitle={subtitle ?? undefined} right={
+      <StaffHeading title={title} {...(subtitle ? { subtitle } : {})} right={
         projects.length > 0 && <button onClick={() => setOpen(!open)} className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-xs font-bold text-primary-foreground"><Plus className="h-3.5 w-3.5" /> Add</button>
       } />
       {projects.length === 0 && <StaffEmpty label="You need an assigned project before adding records here." />}

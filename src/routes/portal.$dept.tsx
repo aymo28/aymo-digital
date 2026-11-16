@@ -4,7 +4,7 @@ import { DeptPortal } from "@/departments/shared/DeptPortal";
 
 export const Route = createFileRoute("/portal/$dept")({
   ssr: false,
-  validateSearch: (s: Record<string, unknown>): { s?: string } => ({ s: typeof s["s"] === "string" ? s["s"] : undefined }),
+  validateSearch: (s: Record<string, unknown>): { s?: string } => typeof s["s"] === "string" ? { s: s["s"] } : {},
   beforeLoad: ({ params }) => { if (!getDepartment(params.dept)) throw notFound(); },
   head: () => ({ meta: [{ title: "Department Portal — AM Enterprises" }, { name: "description", content: "Department team portal." }, { property: "og:title", content: "Department Portal — AM Enterprises" }, { property: "og:description", content: "Department team portal." }, { name: "robots", content: "noindex, nofollow" }] }),
   component: Page,
@@ -15,5 +15,5 @@ function Page() {
   const { dept } = Route.useParams();
   const { s } = Route.useSearch();
   const d = getDepartment(dept)!;
-  return <DeptPortal dept={d} section={s} />;
+  return <DeptPortal dept={d} {...(s ? { section: s } : {})} />;
 }

@@ -24,9 +24,9 @@ export function useLiveList<T extends { id: string }>(
 
     async function load() {
       const data = await dbSelect<T>(table, {
-        eq: filterPublished ? { published: true } : undefined,
-        order: orderBy,
-        select,
+        ...(filterPublished ? { eq: { published: true } } : {}),
+        ...(orderBy ? { order: orderBy } : {}),
+        ...(select ? { select } : {}),
       });
       if (!cancelled) {
         setRows(data);
