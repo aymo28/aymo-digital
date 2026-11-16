@@ -69,7 +69,7 @@ export function MobileStickyCTA() {
           <span className="text-[10px] font-semibold">WhatsApp</span>
         </a>
         <Link
-          to="/contact?mode=booking"
+          to="/contact" search={{ mode: "booking" }}
           className="flex flex-col items-center gap-0.5 rounded-xl px-1 py-2 text-espresso active:bg-sand"
         >
           <Calendar className="h-5 w-5 text-cocoa" />
