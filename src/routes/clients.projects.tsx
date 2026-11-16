@@ -256,7 +256,7 @@ function Projects({ clientId, clientName }: { clientId: string; clientName: stri
         <div className="space-y-4">
           {projects.map((p) => {
             const ms = milestones.filter((m) => m.project_id === p.id);
-            const meta = STATUS_META[p.status] ?? STATUS_META["in_progress"];
+            const meta = STATUS_META[p.status] ?? { label: "In Progress", color: "text-[#24262B]", bg: "bg-[#F8E8EF] border-[#D9A7BC]/40", ring: "#D9A7BC" };
             const pct = Math.min(100, Math.max(0, p.progress ?? 0));
             const isExpanded = expanded === p.id;
             const doneMilestones = ms.filter((m) => m.status === "done").length;
@@ -317,7 +317,7 @@ function Projects({ clientId, clientName }: { clientId: string; clientName: stri
                               downloadIcsFile(p.title, {
                                 id: p.id,
                                 title: p.title,
-                                description: p.summary || undefined,
+                                ...(p.summary ? { description: p.summary } : {}),
                                 dueDate: p.due_date,
                               })
                             }

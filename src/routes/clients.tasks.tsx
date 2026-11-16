@@ -167,7 +167,7 @@ function Tasks({ clientId }: { clientId: string }) {
             </thead>
             <tbody className="divide-y divide-border">
               {filtered.map((t) => {
-                const pm = PRIORITY_META[t.priority] ?? PRIORITY_META["medium"];
+                const pm = PRIORITY_META[t.priority] ?? { cls: "bg-[#E5F3FA] text-[#24262B]", dot: "bg-[#85BBD6]", label: "Medium" };
                 const overdue = isOverdue(t);
                 return (
                   <tr key={t.id} className={`hover:bg-muted/30 transition-colors ${overdue ? "bg-red-50/50" : ""}`}>
@@ -218,7 +218,7 @@ function Tasks({ clientId }: { clientId: string }) {
 }
 
 function TaskCard({ task }: { task: Task }) {
-  const pm = PRIORITY_META[task.priority] ?? PRIORITY_META["medium"];
+  const pm = PRIORITY_META[task.priority] ?? { cls: "bg-[#E5F3FA] text-[#24262B]", dot: "bg-[#85BBD6]", label: "Medium" };
   const overdue = isOverdue(task);
   return (
     <div className={`rounded-2xl border bg-white p-3 shadow-sm hover:shadow-md transition-all ${overdue ? "border-red-300" : "border-white"}`}>

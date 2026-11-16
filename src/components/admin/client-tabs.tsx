@@ -482,7 +482,7 @@ export function InvoicesTab({ clientId, clientName }: { clientId: string; client
                       amount_paid: Number(inv.amount_paid),
                       status: inv.status ?? "draft",
                       due_date: inv.due_date ?? null,
-                      created_at: inv.created_at ?? undefined,
+                      created_at: inv.created_at || undefined,
                       notes: inv.notes ?? null,
                     })
                   }

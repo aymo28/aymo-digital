@@ -21,13 +21,13 @@ export interface InvoiceData {
   client_address?: string | null;
   currency?: string;
   items?: InvoiceItem[] | null;
-  subtotal?: number;
-  tax?: number;
-  tax_rate?: number;
+  subtotal?: number | undefined;
+  tax?: number | undefined;
+  tax_rate?: number | undefined;
   total: number;
-  amount_paid?: number;
+  amount_paid?: number | undefined;
   status: string;
-  created_at?: string;
+  created_at?: string | undefined;
   due_date?: string | null;
   notes?: string | null;
   terms?: string | null;
