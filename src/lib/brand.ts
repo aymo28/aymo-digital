@@ -51,7 +51,7 @@ export const BRAND = {
   /** Founders — used in JSON-LD structured data */
   founders: [
     { name: "Moez Rehman", title: "Founder & CEO" },
-    { name: "Ayesha Moez", title: "Co-Founder & CTO" },
+    { name: "Malaika Jahangir", title: "Co-Founder & Director" },
   ],
 
   /** Social media profiles */
