@@ -475,7 +475,7 @@ function ProjectsTab({ staff }: { staff: Staff }) {
       supabase.from("project_assignments").select("id, project_id").eq("staff_id", staff.id),
     ]);
     setClients(c ?? []); setProjects(p ?? []);
-    setAssigned(Object.fromEntries((a ?? []).map((r) => [r.project_id, r.id])));
+    setAssigned(Object.fromEntries((a ?? []).map((r: { project_id: string; id: string }) => [r.project_id, r.id])));
   }, [staff.id]);
   useEffect(() => { load(); }, [load]);
 

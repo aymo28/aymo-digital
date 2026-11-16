@@ -138,7 +138,7 @@ export const getManagerAccounts = createServerFn({ method: "GET" })
     // 2. Fetch from auth.users to discover any manager accounts (like ali, adeela)
     const { data: userList } = await supabaseAdmin.auth.admin.listUsers();
     const authManagers = (userList?.users ?? []).filter(
-      (u) =>
+      (u: { user_metadata?: Record<string, unknown> }) =>
         u.user_metadata?.is_manager === true ||
         u.user_metadata?.role === "manager" ||
         u.user_metadata?.role_key === "smm",
@@ -227,7 +227,7 @@ export const createManagerAccount = createServerFn({ method: "POST" })
     // 1. Check if user already exists in auth.users
     const { data: userList } = await supabaseAdmin.auth.admin.listUsers();
     const existingAuthUser = userList?.users?.find(
-      (u) => u.email?.toLowerCase().trim() === email,
+      (u: { email?: string }) => u.email?.toLowerCase().trim() === email,
     );
 
     if (existingAuthUser) {
@@ -370,7 +370,7 @@ export const updateManagerAccount = createServerFn({ method: "POST" })
     let authUserId = existing.user_id;
     if (!authUserId) {
       const { data: userList } = await supabaseAdmin.auth.admin.listUsers();
-      const match = userList?.users?.find((u) => u.email?.toLowerCase().trim() === email);
+      const match = userList?.users?.find((u: { email?: string; id: string }) => u.email?.toLowerCase().trim() === email);
       if (match) {
         authUserId = match.id;
         await supabaseAdmin.from("staff_members").update({ user_id: authUserId }).eq("id", data.id);
